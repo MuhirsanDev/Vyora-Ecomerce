@@ -12,17 +12,21 @@ class SettingController extends Controller
     public function index()
     {
         $storeName = Setting::get('store_name', 'Vyora Fashion Store');
+        $storeEmail = Setting::get('store_email', 'info@vyorastore.com');
+        $storeAddress = Setting::get('store_address', 'Jakarta, Indonesia');
         $whatsappNumber = Setting::get('whatsapp_number', '6281234567890');
         $whatsappMessage = Setting::get('whatsapp_message', 'Halo Admin Vyora, saya tertarik untuk memesan produk berikut:');
         $storeLogo = Setting::get('store_logo');
 
-        return view('admin.settings.index', compact('storeName', 'whatsappNumber', 'whatsappMessage', 'storeLogo'));
+        return view('admin.settings.index', compact('storeName', 'storeEmail', 'storeAddress', 'whatsappNumber', 'whatsappMessage', 'storeLogo'));
     }
 
     public function update(Request $request)
     {
         $validated = $request->validate([
             'store_name' => ['required', 'string', 'max:255'],
+            'store_email' => ['required', 'string', 'email', 'max:255'],
+            'store_address' => ['required', 'string', 'max:500'],
             'whatsapp_number' => ['required', 'string', 'max:20'],
             'whatsapp_message' => ['required', 'string', 'max:500'],
             'store_logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg,webp', 'max:2048'],
@@ -35,6 +39,8 @@ class SettingController extends Controller
         }
 
         Setting::set('store_name', $validated['store_name']);
+        Setting::set('store_email', $validated['store_email']);
+        Setting::set('store_address', $validated['store_address']);
         Setting::set('whatsapp_number', $cleanPhone);
         Setting::set('whatsapp_message', $validated['whatsapp_message']);
 
@@ -49,6 +55,6 @@ class SettingController extends Controller
             Setting::set('store_logo', $path);
         }
 
-        return redirect()->route('admin.settings.index')->with('success', 'Pengaturan toko & logo Vyora berhasil disimpan!');
+        return redirect()->route('admin.settings.index')->with('success', 'Pengaturan toko, kontak & logo Vyora berhasil disimpan!');
     }
 }
