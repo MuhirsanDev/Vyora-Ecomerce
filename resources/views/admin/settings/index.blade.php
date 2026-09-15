@@ -52,6 +52,21 @@
       <input type="text" name="store_name" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm font-medium transition" value="{{ old('store_name', $storeName) }}" required>
     </div>
 
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-bold text-slate-900 mb-2">
+          <i class="fa-solid fa-envelope me-1 text-blue-600"></i> Email Kontak Toko <span class="text-rose-500">*</span>
+        </label>
+        <input type="email" name="store_email" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm font-medium transition" value="{{ old('store_email', $storeEmail) }}" required placeholder="info@vyorastore.com">
+      </div>
+      <div>
+        <label class="block text-sm font-bold text-slate-900 mb-2">
+          <i class="fa-solid fa-location-dot me-1 text-rose-600"></i> Alamat Toko <span class="text-rose-500">*</span>
+        </label>
+        <input type="text" name="store_address" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm font-medium transition" value="{{ old('store_address', $storeAddress) }}" required placeholder="Jakarta, Indonesia">
+      </div>
+    </div>
+
     <div>
       <label class="block text-sm font-bold text-slate-900 mb-2">
         Nomor WhatsApp Admin <span class="text-rose-500">*</span>
