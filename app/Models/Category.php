@@ -21,6 +21,19 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
+    protected static function booted(): void
+    {
+        static::deleting(function (Category $category) {
+            if ($category->image && !str_contains($category->image, 'sample/')) {
+                if (\Illuminate\Support\Facades\Storage::disk('public')->exists($category->image)) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete($category->image);
+                } elseif (file_exists(public_path($category->image))) {
+                    @unlink(public_path($category->image));
+                }
+            }
+        });
+    }
+
     public function getImageUrlAttribute(): string
     {
         if (!$this->image) {
