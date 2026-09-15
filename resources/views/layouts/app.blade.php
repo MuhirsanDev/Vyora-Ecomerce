@@ -169,6 +169,8 @@
   <!-- Floating WhatsApp Button -->
   @php
     $waNum = \App\Models\Setting::get('whatsapp_number', '6281234567890');
+    $storeEmail = \App\Models\Setting::get('store_email', 'info@vyorastore.com');
+    $storeAddress = \App\Models\Setting::get('store_address', 'Jakarta, Indonesia');
   @endphp
   <a href="https://wa.me/{{ $waNum }}?text={{ urlencode('Halo Admin Vyora, saya ingin bertanya tentang produk Anda.') }}" 
      target="_blank" 
@@ -196,8 +198,8 @@
         <div class="col-md-4">
           <h5 class="fw-bold mb-3">Hubungi Kami</h5>
           <p class="text-muted mb-1"><i class="fa-brands fa-whatsapp me-2 text-success"></i> WhatsApp: +{{ $waNum }}</p>
-          <p class="text-muted mb-1"><i class="fa-solid fa-envelope me-2"></i> Email: info@vyorastore.com</p>
-          <p class="text-muted"><i class="fa-solid fa-location-dot me-2"></i> Jakarta, Indonesia</p>
+          <p class="text-muted mb-1"><i class="fa-solid fa-envelope me-2"></i> Email: {{ $storeEmail }}</p>
+          <p class="text-muted"><i class="fa-solid fa-location-dot me-2"></i> {{ $storeAddress }}</p>
         </div>
       </div>
       <div class="border-top mt-4 pt-4 text-center text-muted fs-6">
