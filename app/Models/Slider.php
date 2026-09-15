@@ -23,6 +23,19 @@ class Slider extends Model
         'order' => 'integer',
     ];
 
+    protected static function booted(): void
+    {
+        static::deleting(function (Slider $slider) {
+            if ($slider->image && !str_contains($slider->image, 'sample/')) {
+                if (\Illuminate\Support\Facades\Storage::disk('public')->exists($slider->image)) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete($slider->image);
+                } elseif (file_exists(public_path($slider->image))) {
+                    @unlink(public_path($slider->image));
+                }
+            }
+        });
+    }
+
     public function getImageUrlAttribute(): string
     {
         if (!$this->image) {
