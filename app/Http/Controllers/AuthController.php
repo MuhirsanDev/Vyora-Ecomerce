@@ -15,7 +15,7 @@ class AuthController extends Controller
         if (Auth::check()) {
             return Auth::user()->isAdmin()
                 ? redirect()->route('admin.dashboard')
-                : redirect()->route('home');
+                : redirect()->route('cart.index');
         }
 
         return view('auth.login');
@@ -48,7 +48,7 @@ class AuthController extends Controller
                     ->with('success', 'Selamat datang kembali, Admin!');
             }
 
-            return redirect()->intended(route('home'))
+            return redirect()->intended(route('cart.index'))
                 ->with('success', 'Berhasil masuk ke akun Anda.');
         }
 
@@ -60,7 +60,7 @@ class AuthController extends Controller
     public function showRegisterForm()
     {
         if (Auth::check()) {
-            return redirect()->route('home');
+            return redirect()->route('cart.index');
         }
 
         return view('auth.register');
@@ -86,7 +86,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('home')->with('success', 'Pendaftaran berhasil! Selamat berbelanja di Vyora Store.');
+        return redirect()->route('cart.index')->with('success', 'Pendaftaran berhasil! Selamat berbelanja di Vyora Store.');
     }
 
     public function logout(Request $request)
