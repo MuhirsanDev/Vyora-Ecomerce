@@ -29,7 +29,7 @@ class EcommerceTest extends TestCase
             'password_confirmation' => 'password123',
         ]);
 
-        $response->assertRedirect('/');
+        $response->assertRedirect('/cart');
         $this->assertAuthenticated();
     }
 
