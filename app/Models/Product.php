@@ -33,6 +33,19 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    protected static function booted(): void
+    {
+        static::deleting(function (Product $product) {
+            if ($product->image && !str_contains($product->image, 'sample/')) {
+                if (\Illuminate\Support\Facades\Storage::disk('public')->exists($product->image)) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete($product->image);
+                } elseif (file_exists(public_path($product->image))) {
+                    @unlink(public_path($product->image));
+                }
+            }
+        });
+    }
+
     public function getEffectivePriceAttribute(): float
     {
         return $this->discount_price && $this->discount_price > 0 
