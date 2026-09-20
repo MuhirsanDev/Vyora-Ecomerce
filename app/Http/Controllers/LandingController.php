@@ -56,7 +56,7 @@ class LandingController extends Controller
             ->get();
 
         $whatsappNumber = Setting::get('whatsapp_number', '6281234567890');
-        $storeName = Setting::get('store_name', 'Vyora Fashion Store');
+        $storeName = Setting::get('store_name', 'VYORA');
 
         // Format direct WhatsApp URL for single product inquiry
         $message = "Halo {$storeName}, saya mau tanya / pesan produk ini:\n\n"
