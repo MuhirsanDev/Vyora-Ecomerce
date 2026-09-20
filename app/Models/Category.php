@@ -37,7 +37,7 @@ class Category extends Model
     public function getImageUrlAttribute(): string
     {
         if (!$this->image) {
-            return asset('images/sample/silk_blouse.jpg');
+            return asset('storage/products/34.000.jpeg');
         }
 
         if (str_starts_with($this->image, 'http://') || str_starts_with($this->image, 'https://')) {
@@ -48,13 +48,13 @@ class Category extends Model
             if (file_exists(public_path('storage/' . $this->image))) {
                 return asset('storage/' . $this->image);
             }
-            return asset('images/sample/silk_blouse.jpg');
+            return asset('storage/products/34.000.jpeg');
         }
 
         if (file_exists(public_path($this->image))) {
             return asset($this->image);
         }
 
-        return asset('images/sample/silk_blouse.jpg');
+        return asset('storage/products/34.000.jpeg');
     }
 }
