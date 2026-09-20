@@ -62,14 +62,15 @@
             </button>
           </form>
         @else
-          <div class="alert alert-info py-2 px-3 mb-0 fs-7">
-            <i class="fa-solid fa-circle-info me-1"></i> Silakan <a href="{{ route('login') }}" class="fw-bold text-dark">Login</a> untuk memasukkan ke keranjang belanja.
-          </div>
+          <a href="{{ route('login') }}" class="btn btn-outline-dark btn-lg rounded-pill px-4 text-decoration-none fw-bold d-flex align-items-center justify-content-center gap-2 py-3 shadow-xs">
+            <i class="fa-solid fa-right-to-bracket fs-5"></i>
+            <span>Masuk Akun untuk Belanja</span>
+          </a>
         @endauth
 
         <a href="{{ $directWaUrl }}" target="_blank" class="btn btn-success btn-lg rounded-pill px-4 text-white fw-bold d-flex align-items-center justify-content-center gap-2">
           <i class="fa-brands fa-whatsapp fs-4"></i>
-          <span>Tanya / Order Langsung via WhatsApp</span>
+          <span>Chat / Order Langsung via WhatsApp</span>
         </a>
       </div>
 
