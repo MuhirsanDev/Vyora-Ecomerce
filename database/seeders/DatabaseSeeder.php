@@ -64,10 +64,10 @@ class DatabaseSeeder extends Seeder
             );
         }
 
-        // 4. Seed Real Bag & Wallet Products with Aesthetic Product Names & Promo Prices (+15.000 Strikethrough Price)
+        // 4. Seed Real Bag & Wallet Products with Aesthetic Product Names (Without Color Names) & Promo Prices (+15.000 Strikethrough Price)
         $products = [
             [
-                'name' => 'Tas Bahu Ribbon Bow Elegance',
+                'name' => 'Tas Bahu Ribbon Bow',
                 'price' => 49000,
                 'discount_price' => 34000,
                 'description' => 'Tas bahu wanita berbahan kulit sintetis halus dengan aksen pita ribbon cantik. Kompartemen muat dompet, HP & alat kosmetik.',
@@ -76,7 +76,7 @@ class DatabaseSeeder extends Seeder
                 'stock' => 20,
             ],
             [
-                'name' => 'Tas Selempang Boston Casual',
+                'name' => 'Tas Selempang Boston',
                 'price' => 49000,
                 'discount_price' => 34000,
                 'description' => 'Tas selempang wanita model boston bag kasual nan stylish, sangat cocok untuk menemani aktivitas harian Anda.',
@@ -85,7 +85,7 @@ class DatabaseSeeder extends Seeder
                 'stock' => 20,
             ],
             [
-                'name' => 'Dompet Lipat Monogram Clover',
+                'name' => 'Dompet Lipat Monogram',
                 'price' => 52000,
                 'discount_price' => 37000,
                 'description' => 'Dompet lipat wanita dengan hiasan bros bunga warna emas nan mewah. Lengkap dengan slot uang kertas, koin, dan kartu.',
@@ -94,7 +94,7 @@ class DatabaseSeeder extends Seeder
                 'stock' => 15,
             ],
             [
-                'name' => 'Tas Handbag Grace Top Handle',
+                'name' => 'Tas Handbag Grace',
                 'price' => 70000,
                 'discount_price' => 55000,
                 'description' => 'Tas tangan wanita seri Grace warna krem anggun, dilengkapi tali panjang dan gantungan liontin emas eksklusif.',
@@ -103,7 +103,7 @@ class DatabaseSeeder extends Seeder
                 'stock' => 15,
             ],
             [
-                'name' => 'Tas Handbag Grace Classic Black',
+                'name' => 'Tas Handbag Grace Classic',
                 'price' => 70000,
                 'discount_price' => 55000,
                 'description' => 'Tas tangan wanita seri Grace warna hitam elegan, sangat cocok untuk menghadiri acara pesta maupun hangout santai.',
@@ -112,7 +112,7 @@ class DatabaseSeeder extends Seeder
                 'stock' => 15,
             ],
             [
-                'name' => 'Tas Handbag Grace Heritage Brown',
+                'name' => 'Tas Handbag Grace Heritage',
                 'price' => 70000,
                 'discount_price' => 55000,
                 'description' => 'Tas tangan wanita seri Grace warna cokelat classy berbahan kokoh dengan jahitan yang sangat rapi.',
@@ -121,7 +121,7 @@ class DatabaseSeeder extends Seeder
                 'stock' => 15,
             ],
             [
-                'name' => 'Tas Handbag Bowling Vintage Mocca',
+                'name' => 'Tas Handbag Bowling Vintage',
                 'price' => 75000,
                 'discount_price' => 60000,
                 'description' => 'Tas tote bag wanita eksklusif Vyora dengan kapasitas muat luas, tali selempang serbaguna, dan desain timeless.',
@@ -130,7 +130,7 @@ class DatabaseSeeder extends Seeder
                 'stock' => 10,
             ],
             [
-                'name' => 'Tas Handbag Bowling Vintage Black',
+                'name' => 'Tas Handbag Bowling Classic',
                 'price' => 75000,
                 'discount_price' => 60000,
                 'description' => 'Tas selempang wanita gaya vintage klasik berbahan tebal pilihan yang awet dan fashionable.',
@@ -139,7 +139,7 @@ class DatabaseSeeder extends Seeder
                 'stock' => 10,
             ],
             [
-                'name' => 'Tas Handbag Bowling Vintage Coktu',
+                'name' => 'Tas Handbag Bowling Elegance',
                 'price' => 75000,
                 'discount_price' => 60000,
                 'description' => 'Tas selempang wanita favorit Vyora Store dengan kombinasi style cantik, elegan, dan simpel.',
