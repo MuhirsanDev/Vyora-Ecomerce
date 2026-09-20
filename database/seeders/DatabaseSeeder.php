@@ -64,7 +64,7 @@ class DatabaseSeeder extends Seeder
             );
         }
 
-        // 4. Seed Real Bag & Wallet Products with Aesthetic Product Names (Without Color Names) & Promo Prices (+15.000 Strikethrough Price)
+        // 4. Seed Real Bag & Wallet Products with Aesthetic Product Names & Promo Prices (+15.000 Strikethrough Price)
         $products = [
             [
                 'name' => 'Tas Bahu Ribbon Bow',
@@ -73,7 +73,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Tas bahu wanita berbahan kulit sintetis halus dengan aksen pita ribbon cantik. Kompartemen muat dompet, HP & alat kosmetik.',
                 'image' => 'products/34.000 - 1.jpeg',
                 'category_id' => $catModels[0]->id,
-                'stock' => 20,
+                'stock' => 2,
             ],
             [
                 'name' => 'Tas Selempang Boston',
@@ -82,7 +82,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Tas selempang wanita model boston bag kasual nan stylish, sangat cocok untuk menemani aktivitas harian Anda.',
                 'image' => 'products/34.000.jpeg',
                 'category_id' => $catModels[0]->id,
-                'stock' => 20,
+                'stock' => 2,
             ],
             [
                 'name' => 'Dompet Lipat Monogram',
@@ -91,7 +91,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Dompet lipat wanita dengan hiasan bros bunga warna emas nan mewah. Lengkap dengan slot uang kertas, koin, dan kartu.',
                 'image' => 'products/37.000.jpeg',
                 'category_id' => $catModels[1]->id,
-                'stock' => 15,
+                'stock' => 2,
             ],
             [
                 'name' => 'Tas Handbag Grace',
@@ -100,7 +100,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Tas tangan wanita seri Grace warna krem anggun, dilengkapi tali panjang dan gantungan liontin emas eksklusif.',
                 'image' => 'products/55.000.jpeg',
                 'category_id' => $catModels[2]->id,
-                'stock' => 15,
+                'stock' => 2,
             ],
             [
                 'name' => 'Tas Handbag Grace Classic',
@@ -109,7 +109,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Tas tangan wanita seri Grace warna hitam elegan, sangat cocok untuk menghadiri acara pesta maupun hangout santai.',
                 'image' => 'products/55.000 - 1.jpeg',
                 'category_id' => $catModels[2]->id,
-                'stock' => 15,
+                'stock' => 2,
             ],
             [
                 'name' => 'Tas Handbag Grace Heritage',
@@ -118,7 +118,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Tas tangan wanita seri Grace warna cokelat classy berbahan kokoh dengan jahitan yang sangat rapi.',
                 'image' => 'products/55.000 - 2.jpeg',
                 'category_id' => $catModels[2]->id,
-                'stock' => 15,
+                'stock' => 2,
             ],
             [
                 'name' => 'Tas Handbag Bowling Vintage',
@@ -127,7 +127,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Tas tote bag wanita eksklusif Vyora dengan kapasitas muat luas, tali selempang serbaguna, dan desain timeless.',
                 'image' => 'products/60.000.jpeg',
                 'category_id' => $catModels[2]->id,
-                'stock' => 10,
+                'stock' => 2,
             ],
             [
                 'name' => 'Tas Handbag Bowling Classic',
@@ -136,7 +136,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Tas selempang wanita gaya vintage klasik berbahan tebal pilihan yang awet dan fashionable.',
                 'image' => 'products/60.000 - 1.jpeg',
                 'category_id' => $catModels[2]->id,
-                'stock' => 10,
+                'stock' => 2,
             ],
             [
                 'name' => 'Tas Handbag Bowling Elegance',
@@ -145,7 +145,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Tas selempang wanita favorit Vyora Store dengan kombinasi style cantik, elegan, dan simpel.',
                 'image' => 'products/60.000 - 2.jpeg',
                 'category_id' => $catModels[2]->id,
-                'stock' => 10,
+                'stock' => 2,
             ],
         ];
 
