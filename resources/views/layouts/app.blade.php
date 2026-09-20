@@ -175,7 +175,7 @@
     <div class="container">
       <div class="row g-4">
         <div class="col-md-4">
-          <h4 class="font-secondary text-uppercase fw-bold">VYORA STORE</h4>
+          <h4 class="font-secondary text-uppercase fw-bold">VYORA</h4>
           <p class="text-muted">Toko fashion masa kini dengan koleksi terbaik, kualitas bahan nomor satu, dan transaksi langsung via WhatsApp resmi kami.</p>
         </div>
         <div class="col-md-4 ms-auto">
@@ -193,7 +193,7 @@
         </div>
       </div>
       <div class="border-top mt-4 pt-4 text-center text-muted fs-6">
-        <p class="mb-0">&copy; {{ date('Y') }} Vyora Fashion Store. All rights reserved.</p>
+        <p class="mb-0">&copy; {{ date('Y') }} Vyora. All rights reserved.</p>
       </div>
     </div>
   </footer>
