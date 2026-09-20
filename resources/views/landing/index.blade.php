@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Vyora Fashion Store - Landing Page')
+@section('title', 'VYORA - Koleksi Tas & Dompet Elegan')
 
 @section('content')
 
