@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
         );
 
         // 2. Seed Settings
-        Setting::set('store_name', 'Vyora Fashion Store');
+        Setting::set('store_name', 'Vyora');
         Setting::set('store_email', null);
         Setting::set('store_address', 'Jl. Raya Rangkasbitung No. 8, Kareo, Serang, Kabupaten Serang, Banten 42177');
         Setting::set('whatsapp_number', '6281994578184');
@@ -142,7 +142,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Tas Handbag Bowling Elegance',
                 'price' => 75000,
                 'discount_price' => 60000,
-                'description' => 'Tas selempang wanita favorit Vyora Store dengan kombinasi style cantik, elegan, dan simpel.',
+                'description' => 'Tas selempang wanita favorit Vyora dengan kombinasi style cantik, elegan, dan simpel.',
                 'image' => 'products/60.000 - 2.jpeg',
                 'category_id' => $catModels[2]->id,
                 'stock' => 2,
