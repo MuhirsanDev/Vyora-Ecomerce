@@ -28,28 +28,16 @@
           </div>
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <img src="{{ asset('storage/products/55.000.jpeg') }}" class="d-block w-100" alt="Tas Handbag Grace Top Handle" style="height: 420px; object-fit: cover;">
-              <div class="carousel-caption d-block bg-dark bg-opacity-60 rounded-3 px-3 py-2 mb-3">
-                <h6 class="fw-bold mb-0 text-white">Tas Handbag Grace Top Handle</h6>
-              </div>
+              <img src="{{ asset('storage/products/55.000.jpeg') }}" class="d-block w-100" alt="Tas Handbag Grace" style="height: 420px; object-fit: cover;">
             </div>
             <div class="carousel-item">
-              <img src="{{ asset('storage/products/34.000 - 1.jpeg') }}" class="d-block w-100" alt="Tas Bahu Ribbon Bow Elegance" style="height: 420px; object-fit: cover;">
-              <div class="carousel-caption d-block bg-dark bg-opacity-60 rounded-3 px-3 py-2 mb-3">
-                <h6 class="fw-bold mb-0 text-white">Tas Bahu Ribbon Bow Elegance</h6>
-              </div>
+              <img src="{{ asset('storage/products/34.000 - 1.jpeg') }}" class="d-block w-100" alt="Tas Bahu Ribbon Bow" style="height: 420px; object-fit: cover;">
             </div>
             <div class="carousel-item">
-              <img src="{{ asset('storage/products/60.000.jpeg') }}" class="d-block w-100" alt="Tas Handbag Bowling Vintage Mocca" style="height: 420px; object-fit: cover;">
-              <div class="carousel-caption d-block bg-dark bg-opacity-60 rounded-3 px-3 py-2 mb-3">
-                <h6 class="fw-bold mb-0 text-white">Tas Handbag Bowling Vintage Mocca</h6>
-              </div>
+              <img src="{{ asset('storage/products/60.000.jpeg') }}" class="d-block w-100" alt="Tas Handbag Bowling Vintage" style="height: 420px; object-fit: cover;">
             </div>
             <div class="carousel-item">
-              <img src="{{ asset('storage/products/37.000.jpeg') }}" class="d-block w-100" alt="Dompet Lipat Monogram Clover" style="height: 420px; object-fit: cover;">
-              <div class="carousel-caption d-block bg-dark bg-opacity-60 rounded-3 px-3 py-2 mb-3">
-                <h6 class="fw-bold mb-0 text-white">Dompet Lipat Monogram Clover</h6>
-              </div>
+              <img src="{{ asset('storage/products/37.000.jpeg') }}" class="d-block w-100" alt="Dompet Lipat Monogram" style="height: 420px; object-fit: cover;">
             </div>
           </div>
           <button class="carousel-control-prev" type="button" data-bs-target="#productHeroCarousel" data-bs-slide="prev">
