@@ -25,21 +25,21 @@ class Setting extends Model
         static::updateOrCreate(['key' => $key], ['value' => $value]);
     }
 
-    public static function getLogoUrl(): ?string
+    public static function getLogoUrl(): string
     {
         $logo = static::get('store_logo');
         if ($logo && \Illuminate\Support\Facades\Storage::disk('public')->exists($logo)) {
             return asset('storage/' . $logo);
         }
-        return null;
+        return asset('images/logo.svg');
     }
 
     public static function getFaviconUrl(): string
     {
-        $logoUrl = static::getLogoUrl();
-        if ($logoUrl) {
-            return $logoUrl;
+        $logo = static::get('store_logo');
+        if ($logo && \Illuminate\Support\Facades\Storage::disk('public')->exists($logo)) {
+            return asset('storage/' . $logo);
         }
-        return asset('storage/products/34.000.jpeg');
+        return asset('images/favicon.svg');
     }
 }
