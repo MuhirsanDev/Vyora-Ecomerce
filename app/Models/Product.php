@@ -17,6 +17,7 @@ class Product extends Model
         'description',
         'price',
         'discount_price',
+        'promo_ends_at',
         'image',
         'stock',
         'is_active',
@@ -25,6 +26,7 @@ class Product extends Model
     protected $casts = [
         'price' => 'decimal:2',
         'discount_price' => 'decimal:2',
+        'promo_ends_at' => 'datetime',
         'is_active' => 'boolean',
     ];
 
@@ -46,9 +48,22 @@ class Product extends Model
         });
     }
 
+    public function getHasActivePromoAttribute(): bool
+    {
+        if (!$this->discount_price || $this->discount_price <= 0) {
+            return false;
+        }
+
+        if ($this->promo_ends_at && $this->promo_ends_at->isPast()) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function getEffectivePriceAttribute(): float
     {
-        return $this->discount_price && $this->discount_price > 0 
+        return $this->has_active_promo 
             ? (float) $this->discount_price 
             : (float) $this->price;
     }
@@ -60,7 +75,7 @@ class Product extends Model
 
     public function getFormattedDiscountPriceAttribute(): ?string
     {
-        if (!$this->discount_price) return null;
+        if (!$this->has_active_promo) return null;
         return 'Rp ' . number_format($this->discount_price, 0, ',', '.');
     }
 
