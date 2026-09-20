@@ -44,11 +44,12 @@ class Category extends Model
             return $this->image;
         }
 
-        if (str_starts_with($this->image, 'categories/')) {
-            if (file_exists(public_path('storage/' . $this->image))) {
-                return asset('storage/' . $this->image);
-            }
-            return asset('storage/products/34.000.jpeg');
+        if (str_starts_with($this->image, 'storage/')) {
+            return asset($this->image);
+        }
+
+        if (file_exists(public_path('storage/' . $this->image))) {
+            return asset('storage/' . $this->image);
         }
 
         if (file_exists(public_path($this->image))) {
