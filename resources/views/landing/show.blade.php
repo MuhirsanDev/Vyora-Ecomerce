@@ -50,6 +50,11 @@
 
       <!-- Add to Cart Form / Direct WA -->
       <div class="d-flex flex-column gap-3">
+        <a href="{{ $directWaUrl }}" target="_blank" class="btn btn-success btn-lg rounded-pill px-4 text-white fw-bold d-flex align-items-center justify-content-center gap-2">
+          <i class="fa-brands fa-whatsapp fs-4"></i>
+          <span>Chat / Order Langsung via WhatsApp</span>
+        </a>
+
         @auth
           <form action="{{ route('cart.add') }}" method="POST" class="d-flex gap-3 align-items-center">
             @csrf
@@ -64,14 +69,9 @@
         @else
           <a href="{{ route('login') }}" class="btn btn-outline-dark btn-lg rounded-pill px-4 text-decoration-none fw-bold d-flex align-items-center justify-content-center gap-2 py-3 shadow-xs">
             <i class="fa-solid fa-right-to-bracket fs-5"></i>
-            <span>Masuk Akun untuk Belanja</span>
+            <span>Masuk Akun untuk menambahkan koleksi ke keranjang</span>
           </a>
         @endauth
-
-        <a href="{{ $directWaUrl }}" target="_blank" class="btn btn-success btn-lg rounded-pill px-4 text-white fw-bold d-flex align-items-center justify-content-center gap-2">
-          <i class="fa-brands fa-whatsapp fs-4"></i>
-          <span>Chat / Order Langsung via WhatsApp</span>
-        </a>
       </div>
 
     </div>
