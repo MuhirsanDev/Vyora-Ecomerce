@@ -40,6 +40,6 @@ class Setting extends Model
         if ($logoUrl) {
             return $logoUrl;
         }
-        return asset('images/sample/silk_blouse.jpg');
+        return asset('storage/products/34.000.jpeg');
     }
 }
