@@ -137,7 +137,7 @@
         <div class="col-lg-3 col-md-4 col-6">
           <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden position-relative product-card">
             
-            @if($product->discount_price && $product->discount_price > 0)
+            @if($product->has_active_promo)
               <span class="badge bg-danger position-absolute top-0 start-0 m-3 fs-7 px-2 py-1">PROMO</span>
             @endif
 
@@ -154,7 +154,7 @@
               </h6>
 
               <div class="mt-auto pt-2">
-                @if($product->discount_price && $product->discount_price > 0)
+                @if($product->has_active_promo)
                   <div class="d-flex align-items-center gap-2">
                     <span class="fw-bold text-danger fs-5">{{ $product->formatted_discount_price }}</span>
                     <span class="text-muted text-decoration-line-through fs-7">{{ $product->formatted_price }}</span>
