@@ -167,7 +167,7 @@
      target="_blank" 
      class="whatsapp-float-btn">
     <i class="fa-brands fa-whatsapp fs-4"></i>
-    <span>Tanya Admin WA</span>
+    <span>Chat Admin</span>
   </a>
 
   <!-- Footer -->
