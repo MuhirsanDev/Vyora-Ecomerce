@@ -6,7 +6,20 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="VYORA - Temukan koleksi tas & dompet elegan terkini dengan belanja mudah via WhatsApp.">
+  <meta name="description" content="VYORA - Koleksi tas & dompet wanita elegan dengan pemesanan cepat via WhatsApp.">
+  
+  <!-- Open Graph / WhatsApp Social Link Preview Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ url()->current() }}">
+  <meta property="og:title" content="@yield('title', 'VYORA')">
+  <meta property="og:description" content="VYORA - Koleksi tas & dompet wanita elegan dengan pemesanan cepat via WhatsApp.">
+  <meta property="og:site_name" content="VYORA">
+  <meta property="og:image" content="{{ asset('images/logo.svg') }}">
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="@yield('title', 'VYORA')">
+  <meta name="twitter:description" content="VYORA - Koleksi tas & dompet wanita elegan dengan pemesanan cepat via WhatsApp.">
   
   @php
     $faviconUrl = \App\Models\Setting::getFaviconUrl();
