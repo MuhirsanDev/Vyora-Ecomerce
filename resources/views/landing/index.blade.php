@@ -9,16 +9,56 @@
   <div class="container">
     <div class="row align-items-center g-5">
       <div class="col-lg-6">
-        <span class="text-uppercase text-muted letter-spacing-2 fw-semibold">Koleksi Terbaru 2026</span>
-        <h1 class="display-3 font-secondary fw-bold my-3 text-dark">Fashion Elegan, Harga Bersahabat</h1>
-        <p class="lead text-secondary mb-4">Temukan berbagai koleksi pakaian & aksesoris terbaik untuk gaya harian dan acara spesial Anda. Pilihan mudah dan pemesanan instan via WhatsApp.</p>
+        <span class="text-uppercase text-muted letter-spacing-2 fw-semibold">Koleksi Tas & Dompet 2026</span>
+        <h1 class="display-4 font-secondary fw-bold my-3 text-dark">Koleksi Elegan, Harga Spesial Promo</h1>
+        <p class="lead text-secondary mb-4">Temukan tas bahu, dompet lipat, dan handbag wanita kekinian berkualitas dengan pilihan harga promo terbaik. Pesan mudah instan via WhatsApp.</p>
         <div class="d-flex gap-3">
           <a href="#catalog" class="btn btn-dark btn-lg rounded-pill px-4">Lihat Katalog</a>
           <a href="#categories" class="btn btn-outline-dark btn-lg rounded-pill px-4">Kategori</a>
         </div>
       </div>
-      <div class="col-lg-6 text-center">
-        <img src="{{ asset('images/banner-image-1.jpg') }}" alt="Vyora Fashion Hero" class="img-fluid rounded-4 shadow-sm" style="max-height: 450px; object-fit: cover;">
+      <div class="col-lg-6">
+        <!-- Dynamic Product Carousel Slider -->
+        <div id="productHeroCarousel" class="carousel slide carousel-fade shadow-sm rounded-4 overflow-hidden" data-bs-ride="carousel" data-bs-interval="3000">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#productHeroCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#productHeroCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#productHeroCarousel" data-bs-slide-to="2"></button>
+            <button type="button" data-bs-target="#productHeroCarousel" data-bs-slide-to="3"></button>
+          </div>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="{{ asset('storage/products/55.000.jpeg') }}" class="d-block w-100" alt="Tas Handbag Grace Top Handle" style="height: 420px; object-fit: cover;">
+              <div class="carousel-caption d-block bg-dark bg-opacity-60 rounded-3 px-3 py-2 mb-3">
+                <h6 class="fw-bold mb-0 text-white">Tas Handbag Grace Top Handle</h6>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img src="{{ asset('storage/products/34.000 - 1.jpeg') }}" class="d-block w-100" alt="Tas Bahu Ribbon Bow Elegance" style="height: 420px; object-fit: cover;">
+              <div class="carousel-caption d-block bg-dark bg-opacity-60 rounded-3 px-3 py-2 mb-3">
+                <h6 class="fw-bold mb-0 text-white">Tas Bahu Ribbon Bow Elegance</h6>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img src="{{ asset('storage/products/60.000.jpeg') }}" class="d-block w-100" alt="Tas Handbag Bowling Vintage Mocca" style="height: 420px; object-fit: cover;">
+              <div class="carousel-caption d-block bg-dark bg-opacity-60 rounded-3 px-3 py-2 mb-3">
+                <h6 class="fw-bold mb-0 text-white">Tas Handbag Bowling Vintage Mocca</h6>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img src="{{ asset('storage/products/37.000.jpeg') }}" class="d-block w-100" alt="Dompet Lipat Monogram Clover" style="height: 420px; object-fit: cover;">
+              <div class="carousel-caption d-block bg-dark bg-opacity-60 rounded-3 px-3 py-2 mb-3">
+                <h6 class="fw-bold mb-0 text-white">Dompet Lipat Monogram Clover</h6>
+              </div>
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#productHeroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#productHeroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
