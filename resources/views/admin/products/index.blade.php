@@ -36,7 +36,6 @@
                 <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-14 h-14 rounded-xl object-cover shadow-xs border border-slate-200">
                 <div>
                   <div class="font-bold text-slate-900 text-sm">{{ $product->name }}</div>
-                  <div class="text-xs text-slate-400">Slug: {{ $product->slug }}</div>
                 </div>
               </div>
             </td>
