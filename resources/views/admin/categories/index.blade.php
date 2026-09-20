@@ -21,7 +21,6 @@
         <tr class="bg-slate-50 text-slate-400 text-xs uppercase tracking-wider font-bold border-b border-slate-100">
           <th class="py-3 px-6">Sampul</th>
           <th class="py-3 px-4">Nama Kategori</th>
-          <th class="py-3 px-4">Slug</th>
           <th class="py-3 px-4">Jumlah Item</th>
           <th class="py-3 px-6 text-right">Aksi</th>
         </tr>
@@ -39,7 +38,6 @@
               @endif
             </td>
             <td class="py-4 px-4 font-bold text-slate-900">{{ $cat->name }}</td>
-            <td class="py-4 px-4 text-slate-400 text-xs">{{ $cat->slug }}</td>
             <td class="py-4 px-4">
               <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
                 {{ $cat->products_count }} Produk
@@ -60,7 +58,7 @@
           </tr>
         @empty
           <tr>
-            <td colspan="5" class="text-center py-10 text-slate-400 font-medium">Belum ada kategori ditambahkan.</td>
+            <td colspan="4" class="text-center py-10 text-slate-400 font-medium">Belum ada kategori ditambahkan.</td>
           </tr>
         @endforelse
       </tbody>
