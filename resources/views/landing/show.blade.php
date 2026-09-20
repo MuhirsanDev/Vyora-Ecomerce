@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
-@section('title', $product->name . ' - Vyora')
+@section('title', $product->name . ' - VYORA')
+@section('meta_description', $product->formatted_price . ' - ' . \Illuminate\Support\Str::limit(strip_tags($product->description), 120))
+@section('og_image', $product->image_url)
 
 @section('content')
 
