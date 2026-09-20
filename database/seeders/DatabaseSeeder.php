@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
 
         // 2. Seed Settings
         Setting::set('store_name', 'Vyora Fashion Store');
-        Setting::set('store_email', 'info@vyorastore.com');
+        Setting::set('store_email', null);
         Setting::set('store_address', 'Jl. Raya Rangkasbitung No. 8, Kareo, Serang, Kabupaten Serang, Banten 42177');
         Setting::set('whatsapp_number', '6281994578184');
         Setting::set('whatsapp_message', 'Halo Admin Vyora, saya tertarik untuk memesan produk berikut:');
