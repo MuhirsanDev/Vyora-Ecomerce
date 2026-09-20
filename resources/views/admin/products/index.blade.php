@@ -47,8 +47,20 @@
             </td>
             <td class="py-4 px-4 font-bold text-slate-900">{{ $product->formatted_price }}</td>
             <td class="py-4 px-4">
-              @if($product->discount_price)
-                <span class="font-bold text-rose-600">{{ $product->formatted_discount_price }}</span>
+              @if($product->discount_price && $product->discount_price > 0)
+                @if($product->has_active_promo)
+                  <div class="font-bold text-rose-600">{{ $product->formatted_discount_price }}</div>
+                  @if($product->promo_ends_at)
+                    <div class="text-[11px] text-amber-600 font-semibold mt-0.5">
+                      <i class="fa-regular fa-clock me-1"></i>s.d {{ $product->promo_ends_at->format('d M Y H:i') }}
+                    </div>
+                  @else
+                    <div class="text-[11px] text-emerald-600 font-medium mt-0.5">Tanpa Batas</div>
+                  @endif
+                @else
+                  <div class="line-through text-slate-400 text-xs">Rp {{ number_format($product->discount_price, 0, ',', '.') }}</div>
+                  <div class="text-[11px] text-rose-500 font-semibold mt-0.5">Promo Berakhir</div>
+                @endif
               @else
                 <span class="text-slate-400">-</span>
               @endif
