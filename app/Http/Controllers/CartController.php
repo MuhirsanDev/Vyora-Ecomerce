@@ -80,7 +80,7 @@ class CartController extends Controller
             return redirect()->route('cart.index')->with('error', 'Keranjang belanja Anda masih kosong.');
         }
 
-        $storeName = Setting::get('store_name', 'Vyora Fashion Store');
+        $storeName = Setting::get('store_name', 'VYORA');
         $whatsappNumber = Setting::get('whatsapp_number', '6281234567890');
         $defaultMsg = Setting::get('whatsapp_message', 'Halo Admin Vyora, saya tertarik untuk memesan produk berikut:');
 
