@@ -64,6 +64,12 @@
         </div>
 
         <div>
+          <label class="block text-sm font-bold text-slate-900 mb-2">Batas Waktu Promo (Hari & Jam) <span class="text-xs font-normal text-slate-400">(Opsional)</span></label>
+          <input type="datetime-local" name="promo_ends_at" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 text-sm font-medium transition bg-white" value="{{ old('promo_ends_at', $product->promo_ends_at ? $product->promo_ends_at->format('Y-m-d\TH:i') : '') }}">
+          <span class="block mt-1 text-xs text-slate-400">Jika diisi, harga promo otomatis kadaluarsa & kembali ke harga normal pada jam ini. Kosongkan jika promo tanpa batas waktu.</span>
+        </div>
+
+        <div>
           <label class="block text-sm font-bold text-slate-900 mb-2">Stok (Pcs) <span class="text-rose-500">*</span></label>
           <input type="number" name="stock" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 text-sm font-medium transition" value="{{ old('stock', $product->stock) }}" required min="0">
         </div>
