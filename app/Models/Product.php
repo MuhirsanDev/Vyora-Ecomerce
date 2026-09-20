@@ -67,7 +67,7 @@ class Product extends Model
     public function getImageUrlAttribute(): string
     {
         if (!$this->image) {
-            return asset('images/sample/denim_jacket.jpg');
+            return asset('storage/products/34.000.jpeg');
         }
 
         if (str_starts_with($this->image, 'http://') || str_starts_with($this->image, 'https://')) {
@@ -78,13 +78,13 @@ class Product extends Model
             if (file_exists(public_path('storage/' . $this->image))) {
                 return asset('storage/' . $this->image);
             }
-            return asset('images/sample/denim_jacket.jpg');
+            return asset('storage/products/34.000.jpeg');
         }
 
         if (file_exists(public_path($this->image))) {
             return asset($this->image);
         }
 
-        return asset('images/sample/denim_jacket.jpg');
+        return asset('storage/products/34.000.jpeg');
     }
 }
