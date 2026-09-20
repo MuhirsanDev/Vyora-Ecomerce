@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $product->name . ' - Vyora Store')
+@section('title', $product->name . ' - Vyora')
 
 @section('content')
 
