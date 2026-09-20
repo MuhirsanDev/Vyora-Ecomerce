@@ -67,8 +67,8 @@
             </button>
           </form>
         @else
-          <a href="{{ route('login') }}" class="btn btn-outline-dark btn-lg rounded-pill px-4 text-decoration-none fw-bold d-flex align-items-center justify-content-center gap-2 py-3 shadow-xs">
-            <i class="fa-solid fa-right-to-bracket fs-5"></i>
+          <a href="{{ route('login') }}" class="btn btn-outline-dark rounded-pill px-3 py-2 text-decoration-none fw-semibold d-flex align-items-center justify-content-center gap-2 fs-7">
+            <i class="fa-solid fa-right-to-bracket"></i>
             <span>Masuk Akun untuk menambahkan koleksi ke keranjang</span>
           </a>
         @endauth
