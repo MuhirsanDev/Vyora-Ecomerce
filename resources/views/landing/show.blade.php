@@ -30,12 +30,17 @@
       <h1 class="font-secondary fw-bold text-dark display-5 mb-3">{{ $product->name }}</h1>
 
       <div class="mb-3">
-        @if($product->discount_price && $product->discount_price > 0)
+        @if($product->has_active_promo)
           <div class="d-flex align-items-center gap-3">
             <span class="fs-2 fw-bold text-danger">{{ $product->formatted_discount_price }}</span>
             <span class="fs-4 text-muted text-decoration-line-through">{{ $product->formatted_price }}</span>
             <span class="badge bg-danger fs-6">HEMAT {{ number_format((($product->price - $product->discount_price) / $product->price) * 100, 0) }}%</span>
           </div>
+          @if($product->promo_ends_at)
+            <div class="text-danger small mt-2 fw-semibold">
+              <i class="fa-regular fa-clock me-1"></i> Promo Spesial Berakhir Pada: {{ $product->promo_ends_at->format('d M Y, H:i') }} WIB
+            </div>
+          @endif
         @else
           <span class="fs-2 fw-bold text-dark">{{ $product->formatted_price }}</span>
         @endif
