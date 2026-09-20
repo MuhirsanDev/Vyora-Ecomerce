@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'VYORA - Koleksi Tas & Dompet Elegan')
+@section('title', 'VYORA')
 
 @section('content')
 
