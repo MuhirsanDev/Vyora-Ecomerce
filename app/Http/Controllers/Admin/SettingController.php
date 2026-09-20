@@ -11,7 +11,7 @@ class SettingController extends Controller
 {
     public function index()
     {
-        $storeName = Setting::get('store_name', 'Vyora Fashion Store');
+        $storeName = Setting::get('store_name', 'VYORA');
         $storeEmail = Setting::get('store_email', '');
         $storeAddress = Setting::get('store_address', 'Jl. Raya Rangkasbitung No. 8, Kareo, Serang, Kabupaten Serang, Banten 42177');
         $whatsappNumber = Setting::get('whatsapp_number', '6281994578184');
