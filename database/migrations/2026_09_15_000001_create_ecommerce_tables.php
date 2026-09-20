@@ -27,6 +27,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->decimal('price', 12, 2);
             $table->decimal('discount_price', 12, 2)->nullable();
+            $table->dateTime('promo_ends_at')->nullable();
             $table->string('image')->nullable();
             $table->integer('stock')->default(10);
             $table->boolean('is_active')->default(true);
