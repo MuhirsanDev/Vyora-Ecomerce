@@ -117,16 +117,17 @@
 
     <!-- Active Filter Badge -->
     @if(request('category'))
-      <div class="mb-4 p-3 bg-white rounded-3 shadow-sm d-flex align-items-center justify-content-between">
-        <div>
-          <span class="text-muted me-2">Menampilkan Kategori:</span>
-          <span class="badge bg-dark fs-6 px-3 py-2 rounded-pill">
+      <div class="mb-4 p-3 bg-white rounded-4 shadow-sm border border-light d-flex flex-wrap align-items-center justify-content-between gap-2">
+        <div class="d-flex flex-wrap align-items-center gap-2">
+          <span class="text-muted fs-7">Kategori:</span>
+          <span class="badge bg-dark fs-7 px-3 py-1.5 rounded-pill fw-normal">
             {{ $activeCategory ? $activeCategory->name : request('category') }}
           </span>
-          <span class="text-muted ms-2 fs-7">({{ $products->total() }} Produk ditemukan)</span>
+          <span class="text-muted fs-7">({{ $products->total() }} Produk)</span>
         </div>
-        <a href="{{ route('home', ['search' => request('search')]) }}#catalog" class="btn btn-outline-danger btn-sm rounded-pill">
-          <i class="fa-solid fa-xmark me-1"></i> Hapus Filter Kategori
+        <a href="{{ route('home', ['search' => request('search')]) }}#catalog" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 fs-7 d-inline-flex align-items-center gap-1 shadow-none ms-auto">
+          <i class="fa-solid fa-xmark"></i>
+          <span>Hapus</span>
         </a>
       </div>
     @endif
