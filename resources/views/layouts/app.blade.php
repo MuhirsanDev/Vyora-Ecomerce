@@ -12,14 +12,16 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{ url()->current() }}">
   <meta property="og:title" content="@yield('title', 'VYORA')">
-  <meta property="og:description" content="VYORA - Koleksi tas & dompet wanita elegan dengan pemesanan cepat via WhatsApp.">
+  <meta property="og:description" content="@yield('meta_description', 'VYORA - Koleksi tas & dompet wanita elegan dengan pemesanan cepat via WhatsApp.')">
   <meta property="og:site_name" content="VYORA">
-  <meta property="og:image" content="{{ asset('images/logo.svg') }}">
+  <meta property="og:image" content="@yield('og_image', asset('storage/products/34.000 - 1.jpeg'))">
+  <meta property="og:image:type" content="image/jpeg">
 
   <!-- Twitter Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="@yield('title', 'VYORA')">
-  <meta name="twitter:description" content="VYORA - Koleksi tas & dompet wanita elegan dengan pemesanan cepat via WhatsApp.">
+  <meta name="twitter:description" content="@yield('meta_description', 'VYORA - Koleksi tas & dompet wanita elegan dengan pemesanan cepat via WhatsApp.')">
+  <meta name="twitter:image" content="@yield('og_image', asset('storage/products/34.000 - 1.jpeg'))">
   
   @php
     $faviconUrl = \App\Models\Setting::getFaviconUrl();
