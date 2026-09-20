@@ -50,13 +50,6 @@
             <span class="text-muted">Belum punya akun?</span>
             <a href="{{ route('register') }}" class="text-dark fw-bold text-decoration-none ms-1">Daftar Akun Baru</a>
           </div>
-
-          <hr class="my-4">
-          <div class="text-muted fs-7">
-            <strong>Akun Pengujian Demo:</strong><br>
-            • <strong>Admin:</strong> admin@vyora.com / admin123<br>
-            • <strong>Customer:</strong> user@vyora.com / user123
-          </div>
         </div>
       </div>
     </div>
