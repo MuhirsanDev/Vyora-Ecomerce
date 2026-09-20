@@ -78,16 +78,8 @@
   <!-- Header Navigation -->
   <nav class="navbar navbar-expand-lg bg-white border-bottom py-3 sticky-top">
     <div class="container">
-      @php
-        $publicLogo = \App\Models\Setting::get('store_logo');
-        $storeNameSetting = \App\Models\Setting::get('store_name', 'Vyora Fashion Store');
-      @endphp
-      <a class="navbar-brand font-secondary fs-3 text-dark fw-bold text-uppercase d-flex align-items-center" href="{{ route('home') }}">
-        @if($publicLogo && \Illuminate\Support\Facades\Storage::disk('public')->exists($publicLogo))
-          <img src="{{ asset('storage/' . $publicLogo) }}" alt="{{ $storeNameSetting }}" style="max-height: 45px; width: auto;" class="object-fit-contain">
-        @else
-          VYORA <span class="fs-6 text-muted font-primary fw-normal ms-1">STORE</span>
-        @endif
+      <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
+        <img src="{{ \App\Models\Setting::getLogoUrl() }}" alt="Vyora Store" style="max-height: 42px; width: auto;" class="object-fit-contain">
       </a>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
