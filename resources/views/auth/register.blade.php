@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Daftar Akun Baru - Vyora Store')
+@section('title', 'Daftar Akun - Vyora')
 
 @section('content')
 
