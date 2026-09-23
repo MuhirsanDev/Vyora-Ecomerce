@@ -85,6 +85,55 @@
       color: #71717a !important;
       font-weight: 400 !important;
     }
+    /* Product Card Hover Zoom & Elevation */
+    .product-card {
+      transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.3s ease !important;
+    }
+    .product-card:hover {
+      transform: translateY(-6px) !important;
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.12) !important;
+    }
+    .product-card .card-img-top {
+      transition: transform 0.5s ease;
+    }
+    .product-card:hover .card-img-top {
+      transform: scale(1.05);
+    }
+    /* Visual Color Swatches */
+    .color-swatch-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: inline-block;
+      border: 1px solid rgba(0,0,0,0.2);
+      vertical-align: middle;
+      margin-right: 4px;
+    }
+    .btn-check:checked + label.color-swatch-btn {
+      border-color: #000000 !important;
+      background-color: #000000 !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .fs-8 {
+      font-size: 0.75rem;
+    }
+    /* Sticky Mobile Action Bar */
+    .sticky-mobile-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 1040;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.12);
+    }
+    @media (min-width: 768px) {
+      .sticky-mobile-bar {
+        display: none !important;
+      }
+    }
   </style>
 </head>
 
@@ -115,18 +164,20 @@
         </ul>
 
         <div class="d-flex align-items-center gap-3">
-          @auth
-            <!-- Cart Link -->
-            <a href="{{ route('cart.index') }}" class="btn btn-outline-dark position-relative rounded-pill px-3 me-2">
-              <i class="fa-solid fa-cart-shopping me-1"></i> Keranjang
-              @php
-                $cartCount = \App\Models\CartItem::where('user_id', auth()->id())->sum('quantity');
-              @endphp
-              @if($cartCount > 0)
-                <span class="badge rounded-pill bg-danger badge-cart">{{ $cartCount }}</span>
-              @endif
-            </a>
+          <!-- Cart Link / Drawer Trigger (Accessible to Everyone) -->
+          <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" class="btn btn-outline-dark position-relative rounded-pill px-3 me-1 cursor-pointer">
+            <i class="fa-solid fa-cart-shopping me-1"></i> Keranjang
+            @php
+              $cartCount = auth()->check()
+                ? \App\Models\CartItem::where('user_id', auth()->id())->sum('quantity')
+                : \App\Models\CartItem::where('session_id', session()->getId())->sum('quantity');
+            @endphp
+            @if($cartCount > 0)
+              <span class="badge rounded-pill bg-danger badge-cart">{{ $cartCount }}</span>
+            @endif
+          </button>
 
+          @auth
             @if(auth()->user()->isAdmin())
               <a href="{{ route('admin.dashboard') }}" class="btn btn-dark rounded-pill px-3">
                 <i class="fa-solid fa-user-gear me-1"></i> Admin Panel
@@ -139,7 +190,7 @@
 
             <form action="{{ route('logout') }}" method="POST" class="d-inline">
               @csrf
-              <button type="submit" class="btn btn-link text-danger text-decoration-none p-0 ms-2" title="Keluar">
+              <button type="submit" class="btn btn-link text-danger text-decoration-none p-0 ms-1" title="Keluar">
                 <i class="fa-solid fa-right-from-bracket fs-5"></i>
               </button>
             </form>
@@ -153,12 +204,48 @@
     </div>
   </nav>
 
-  <!-- Flash Messages -->
+  <!-- Flash Messages & Interactive Cart Modal -->
   @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show container mt-3 mb-0" role="alert">
-      <i class="fa-solid fa-circle-check me-2"></i> {{ session('success') }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
+    @if(str_contains(session('success'), 'keranjang'))
+      <div class="modal fade" id="addedToCartModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content rounded-4 border-0 shadow-lg p-3">
+            <div class="modal-header border-0 pb-0">
+              <h5 class="modal-title font-secondary fw-bold text-success d-flex align-items-center gap-2">
+                <i class="fa-solid fa-circle-check fs-3"></i>
+                <span>Berhasil Masuk Keranjang!</span>
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-3">
+              <p class="text-dark fs-6 mb-0">{{ session('success') }}</p>
+            </div>
+            <div class="modal-footer border-0 pt-0 d-flex gap-2">
+              <button type="button" class="btn btn-outline-secondary rounded-pill px-4 flex-grow-1" data-bs-dismiss="modal">Lanjut Belanja</button>
+              <a href="{{ route('cart.index') }}" class="btn btn-success rounded-pill px-4 flex-grow-1 fw-bold">
+                <i class="fa-solid fa-cart-shopping me-1"></i> Lihat Keranjang
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      @push('scripts')
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          var cartModalEl = document.getElementById('addedToCartModal');
+          if (cartModalEl) {
+            var cartModal = new bootstrap.Modal(cartModalEl);
+            cartModal.show();
+          }
+        });
+      </script>
+      @endpush
+    @else
+      <div class="alert alert-success alert-dismissible fade show container mt-3 mb-0" role="alert">
+        <i class="fa-solid fa-circle-check me-2"></i> {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    @endif
   @endif
 
   @if(session('error'))
@@ -212,6 +299,78 @@
       </div>
     </div>
   </footer>
+
+  <!-- Offcanvas Slide-Over Cart Drawer -->
+  @php
+    $drawerCartItems = auth()->check()
+      ? \App\Models\CartItem::with('product')->where('user_id', auth()->id())->get()
+      : \App\Models\CartItem::with('product')->where('session_id', session()->getId())->get();
+    $drawerTotalPrice = $drawerCartItems->sum(fn ($i) => $i->subtotal);
+  @endphp
+  <div class="offcanvas offcanvas-end rounded-start-4 border-0 shadow-lg" tabindex="-1" id="offcanvasCart" aria-labelledby="offcanvasCartLabel" style="width: 380px; max-width: 90vw;">
+    <div class="offcanvas-header border-bottom py-3">
+      <h5 class="offcanvas-title font-secondary fw-bold text-dark d-flex align-items-center gap-2 mb-0" id="offcanvasCartLabel">
+        <i class="fa-solid fa-bag-shopping text-dark fs-4"></i>
+        <span>Keranjang Belanja</span>
+      </h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body p-3">
+      @if($drawerCartItems->count() > 0)
+        <div class="d-flex flex-column gap-3 mb-3">
+          @foreach($drawerCartItems as $dItem)
+            <div class="d-flex align-items-center gap-3 p-2 bg-light rounded-3 border">
+              <img src="{{ $dItem->product->image_url }}" alt="{{ $dItem->product->name }}" class="rounded-3" style="width: 55px; height: 55px; object-fit: cover;">
+              <div class="flex-grow-1 min-w-0">
+                <h6 class="fw-bold text-dark mb-1 text-truncate fs-7">{{ $dItem->product->name }}</h6>
+                <div class="d-flex flex-wrap gap-1 align-items-center mb-1">
+                  @if($dItem->color)
+                    <span class="badge bg-white text-dark border fs-8 px-1.5 py-0.5">{{ $dItem->color }}</span>
+                  @endif
+                  @if($dItem->size)
+                    <span class="badge bg-white text-dark border fs-8 px-1.5 py-0.5">{{ $dItem->size }}</span>
+                  @endif
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="text-muted fs-7">{{ $dItem->quantity }}x</span>
+                  <span class="fw-bold text-dark fs-7">Rp {{ number_format($dItem->subtotal, 0, ',', '.') }}</span>
+                </div>
+              </div>
+              <form action="{{ route('cart.destroy', $dItem->id) }}" method="POST" class="d-inline">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-link text-danger p-0 me-1" title="Hapus">
+                  <i class="fa-solid fa-xmark fs-5"></i>
+                </button>
+              </form>
+            </div>
+          @endforeach
+        </div>
+      @else
+        <div class="text-center py-5 text-muted">
+          <i class="fa-solid fa-cart-shopping fs-1 mb-3 text-secondary opacity-50"></i>
+          <p class="mb-0 font-medium">Keranjang belanja Anda masih kosong.</p>
+        </div>
+      @endif
+    </div>
+    @if($drawerCartItems->count() > 0)
+      <div class="offcanvas-footer border-top p-3 bg-white">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-muted font-medium">Total Pembayaran:</span>
+          <span class="fw-bold fs-5 text-success">Rp {{ number_format($drawerTotalPrice, 0, ',', '.') }}</span>
+        </div>
+        <div class="d-flex flex-column gap-2">
+          <a href="{{ route('cart.whatsapp') }}" target="_blank" class="btn btn-success rounded-pill fw-bold w-100 py-2.5 d-flex align-items-center justify-content-center gap-2">
+            <i class="fa-brands fa-whatsapp fs-5"></i>
+            <span>Order via WhatsApp</span>
+          </a>
+          <a href="{{ route('cart.index') }}" class="btn btn-outline-dark rounded-pill w-100 py-2 fs-7 font-semibold">
+            Lihat Detail Keranjang
+          </a>
+        </div>
+      </div>
+    @endif
+  </div>
 
   <!-- JS Scripts -->
   <script src="{{ asset('js/jquery.min.js') }}"></script>
