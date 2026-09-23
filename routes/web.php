@@ -48,10 +48,10 @@ Route::middleware('auth')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| Customer Cart Routes (Requires Login)
+| Customer Cart Routes (Accessible by Auth & Guests)
 |--------------------------------------------------------------------------
 */
-Route::middleware('auth')->prefix('cart')->name('cart.')->group(function () {
+Route::prefix('cart')->name('cart.')->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('index');
     Route::post('/add', [CartController::class, 'add'])->name('add');
     Route::patch('/{id}', [CartController::class, 'update'])->name('update');
