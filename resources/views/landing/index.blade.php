@@ -97,37 +97,72 @@
     
     <!-- Title & Search Bar -->
     <div class="row align-items-center mb-4 g-3">
-      <div class="col-md-6">
+      <div class="col-lg-5">
         <h2 class="font-secondary fw-bold mb-1">Katalog Produk</h2>
         <p class="text-muted mb-0">Temukan produk impian Anda sekarang</p>
       </div>
-      <div class="col-md-6">
-        <form action="{{ route('home') }}#catalog" method="GET" class="d-flex gap-2">
+      <div class="col-lg-7">
+        <form action="{{ route('home') }}#catalog" method="GET" class="d-flex flex-wrap gap-2">
           @if(request('category'))
             <input type="hidden" name="category" value="{{ request('category') }}">
           @endif
-          <input type="text" name="search" class="form-control rounded-pill px-3" placeholder="Cari nama produk..." value="{{ request('search') }}">
-          <button type="submit" class="btn btn-dark rounded-pill px-4">Cari</button>
-          @if(request('search') || request('category'))
+          <div class="flex-grow-1" style="min-width: 180px;">
+            <input type="text" name="search" class="form-control rounded-pill px-3" placeholder="Cari nama produk..." value="{{ request('search') }}">
+          </div>
+          <div style="width: 120px;">
+            <select name="color" class="form-select rounded-pill px-3 fs-7" onchange="this.form.submit()">
+              <option value="">Warna</option>
+              @foreach(['Hitam', 'Coffee', 'Cream', 'Hijau', 'Merah', 'Navy', 'Putih', 'Pink', 'Lilac', 'Cokelat'] as $cOpt)
+                <option value="{{ $cOpt }}" {{ request('color') == $cOpt ? 'selected' : '' }}>{{ $cOpt }}</option>
+              @endforeach
+            </select>
+          </div>
+          <div style="width: 110px;">
+            <select name="size" class="form-select rounded-pill px-3 fs-7" onchange="this.form.submit()">
+              <option value="">Ukuran</option>
+              @foreach(['S', 'M', 'L', 'XL', 'XXL', '36', '37', '38', '39', '40', '41', '42', '27', '28', '29', '30', '31', '32'] as $sOpt)
+                <option value="{{ $sOpt }}" {{ request('size') == $sOpt ? 'selected' : '' }}>{{ $sOpt }}</option>
+              @endforeach
+            </select>
+          </div>
+          <button type="submit" class="btn btn-dark rounded-pill px-3">Cari</button>
+          @if(request('search') || request('category') || request('color') || request('size'))
             <a href="{{ route('home') }}#catalog" class="btn btn-outline-secondary rounded-pill px-3" title="Reset Filter">Reset</a>
           @endif
         </form>
       </div>
     </div>
 
-    <!-- Active Filter Badge -->
-    @if(request('category'))
+    <!-- Active Filter Badges -->
+    @if(request('category') || request('color') || request('size') || request('search'))
       <div class="mb-4 p-3 bg-white rounded-4 shadow-sm border border-light d-flex flex-wrap align-items-center justify-content-between gap-2">
         <div class="d-flex flex-wrap align-items-center gap-2">
-          <span class="text-muted fs-7">Kategori:</span>
-          <span class="badge bg-dark fs-7 px-3 py-1.5 rounded-pill fw-normal">
-            {{ $activeCategory ? $activeCategory->name : request('category') }}
-          </span>
-          <span class="text-muted fs-7">({{ $products->total() }} Produk)</span>
+          <span class="text-muted fs-7">Filter Aktif:</span>
+          @if(request('category'))
+            <span class="badge bg-dark fs-7 px-3 py-1.5 rounded-pill fw-normal">
+              Kategori: {{ $activeCategory ? $activeCategory->name : request('category') }}
+            </span>
+          @endif
+          @if(request('color'))
+            <span class="badge bg-primary fs-7 px-3 py-1.5 rounded-pill fw-normal">
+              Warna: {{ request('color') }}
+            </span>
+          @endif
+          @if(request('size'))
+            <span class="badge bg-secondary fs-7 px-3 py-1.5 rounded-pill fw-normal">
+              Ukuran: {{ request('size') }}
+            </span>
+          @endif
+          @if(request('search'))
+            <span class="badge bg-info text-dark fs-7 px-3 py-1.5 rounded-pill fw-normal">
+              Kata Kunci: "{{ request('search') }}"
+            </span>
+          @endif
+          <span class="text-muted fs-7">({{ $products->total() }} Produk Ditemukan)</span>
         </div>
-        <a href="{{ route('home', ['search' => request('search')]) }}#catalog" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 fs-7 d-inline-flex align-items-center gap-1 shadow-none ms-auto">
+        <a href="{{ route('home') }}#catalog" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 fs-7 d-inline-flex align-items-center gap-1 shadow-none ms-auto">
           <i class="fa-solid fa-xmark"></i>
-          <span>Hapus</span>
+          <span>Hapus Filter</span>
         </a>
       </div>
     @endif
@@ -142,8 +177,8 @@
               <span class="badge bg-danger position-absolute top-0 start-0 m-3 fs-7 px-2 py-1">PROMO</span>
             @endif
 
-            <a href="{{ route('products.show', $product->slug) }}">
-              <img src="{{ $product->image_url }}" class="card-img-top" alt="{{ $product->name }}" style="height: 240px; object-fit: cover;">
+            <a href="{{ route('products.show', $product->slug) }}" class="overflow-hidden d-block">
+              <img src="{{ $product->image_url }}" class="card-img-top" alt="{{ $product->name }}" style="height: 240px; object-fit: cover; transition: transform 0.5s ease;">
             </a>
 
             <div class="card-body d-flex flex-column">
@@ -167,20 +202,20 @@
 
               <div class="d-flex gap-2 mt-3">
                 <a href="{{ route('products.show', $product->slug) }}" class="btn btn-outline-dark btn-sm rounded-pill flex-grow-1">Detail</a>
-                @auth
-                  <form action="{{ route('cart.add') }}" method="POST" class="d-inline">
-                    @csrf
-                    <input type="hidden" name="product_id" value="{{ $product->id }}">
-                    <input type="hidden" name="quantity" value="1">
-                    <button type="submit" class="btn btn-dark btn-sm rounded-circle px-2" title="Tambah ke Keranjang">
-                      <i class="fa-solid fa-cart-plus"></i>
-                    </button>
-                  </form>
-                @else
-                  <a href="{{ route('login') }}" class="btn btn-dark btn-sm rounded-circle px-2" title="Login untuk Beli">
+                <form action="{{ route('cart.add') }}" method="POST" class="d-inline">
+                  @csrf
+                  <input type="hidden" name="product_id" value="{{ $product->id }}">
+                  <input type="hidden" name="quantity" value="1">
+                  @if(count($product->colors_list) > 0)
+                    <input type="hidden" name="color" value="{{ $product->colors_list[0] }}">
+                  @endif
+                  @if(count($product->sizes_list) > 0)
+                    <input type="hidden" name="size" value="{{ $product->sizes_list[0] }}">
+                  @endif
+                  <button type="submit" class="btn btn-dark btn-sm rounded-circle px-2" title="Tambah ke Keranjang">
                     <i class="fa-solid fa-cart-plus"></i>
-                  </a>
-                @endauth
+                  </button>
+                </form>
               </div>
 
             </div>
