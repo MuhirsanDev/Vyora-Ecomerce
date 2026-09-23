@@ -33,7 +33,17 @@
                             {{ $item->product->name }}
                           </a>
                           <br>
-                          <small class="text-muted">{{ $item->product->category->name ?? '' }}</small>
+                          <small class="text-muted me-2">{{ $item->product->category->name ?? '' }}</small>
+                          @if($item->color)
+                            <span class="badge bg-light text-dark border me-1">
+                              <i class="fa-solid fa-palette me-1 text-primary"></i> {{ $item->color }}
+                            </span>
+                          @endif
+                          @if($item->size)
+                            <span class="badge bg-light text-dark border">
+                              <i class="fa-solid fa-ruler-horizontal me-1 text-indigo-600"></i> {{ $item->size }}
+                            </span>
+                          @endif
                         </div>
                       </div>
                     </td>
@@ -84,10 +94,23 @@
             <i class="fa-brands fa-whatsapp text-success me-1"></i> Pesanan Anda akan diformat secara otomatis dan dikirimkan langsung ke WhatsApp Admin Vyora untuk diproses.
           </div>
 
-          <a href="{{ route('cart.whatsapp') }}" target="_blank" class="btn btn-success btn-lg rounded-pill w-100 fw-bold d-flex align-items-center justify-content-center gap-2">
-            <i class="fa-brands fa-whatsapp fs-4"></i>
-            <span>Pesan via WhatsApp</span>
-          </a>
+          <form action="{{ route('cart.whatsapp') }}" method="GET" target="_blank">
+            @guest
+              <div class="mb-3 text-start">
+                <label class="form-label text-dark fw-semibold fs-7 mb-1">Nama Pemesan <span class="text-muted fw-normal">(Opsional)</span></label>
+                <input type="text" name="guest_name" class="form-control form-control-sm rounded-3 px-3" placeholder="Contoh: Siska / Pengunjung">
+              </div>
+              <div class="mb-3 text-start">
+                <label class="form-label text-dark fw-semibold fs-7 mb-1">No. WhatsApp <span class="text-muted fw-normal">(Opsional)</span></label>
+                <input type="text" name="guest_phone" class="form-control form-control-sm rounded-3 px-3" placeholder="Contoh: 08123456789">
+              </div>
+            @endguest
+
+            <button type="submit" class="btn btn-success btn-lg rounded-pill w-100 fw-bold d-flex align-items-center justify-content-center gap-2">
+              <i class="fa-brands fa-whatsapp fs-4"></i>
+              <span>Pesan via WhatsApp</span>
+            </button>
+          </form>
 
           <a href="{{ route('home') }}#catalog" class="btn btn-outline-dark rounded-pill w-100 mt-2">
             Lanjut Berbelanja
