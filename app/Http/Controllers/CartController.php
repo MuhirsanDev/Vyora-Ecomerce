@@ -10,10 +10,18 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
+    private function getCartQuery()
+    {
+        if (Auth::check()) {
+            return CartItem::where('user_id', Auth::id());
+        }
+        return CartItem::where('session_id', session()->getId());
+    }
+
     public function index()
     {
-        $cartItems = CartItem::with('product')
-            ->where('user_id', Auth::id())
+        $cartItems = $this->getCartQuery()
+            ->with('product')
             ->get();
 
         $totalPrice = $cartItems->sum(fn ($item) => $item->subtotal);
@@ -27,26 +35,49 @@ class CartController extends Controller
         $request->validate([
             'product_id' => ['required', 'exists:products,id'],
             'quantity' => ['required', 'integer', 'min:1', 'max:50'],
+            'color' => ['nullable', 'string', 'max:100'],
+            'size' => ['nullable', 'string', 'max:50'],
         ]);
 
         $product = Product::findOrFail($request->input('product_id'));
+        $color = $request->input('color');
+        $size = $request->input('size');
 
-        $cartItem = CartItem::where('user_id', Auth::id())
-            ->where('product_id', $product->id)
-            ->first();
+        $query = $this->getCartQuery()->where('product_id', $product->id);
+        if ($color) {
+            $query->where('color', $color);
+        } else {
+            $query->whereNull('color');
+        }
+
+        if ($size) {
+            $query->where('size', $size);
+        } else {
+            $query->whereNull('size');
+        }
+
+        $cartItem = $query->first();
 
         if ($cartItem) {
-            $cartItem->quantity += $request->input('quantity', 1);
+            $cartItem->quantity += (int) $request->input('quantity', 1);
             $cartItem->save();
         } else {
             CartItem::create([
-                'user_id' => Auth::id(),
+                'user_id' => Auth::check() ? Auth::id() : null,
+                'session_id' => Auth::check() ? null : session()->getId(),
                 'product_id' => $product->id,
-                'quantity' => $request->input('quantity', 1),
+                'quantity' => (int) $request->input('quantity', 1),
+                'color' => $color,
+                'size' => $size,
             ]);
         }
 
-        return redirect()->back()->with('success', "'{$product->name}' berhasil ditambahkan ke keranjang.");
+        $details = [];
+        if ($color) $details[] = "Warna: {$color}";
+        if ($size) $details[] = "Ukuran: {$size}";
+        $variantInfo = !empty($details) ? " (" . implode(', ', $details) . ")" : "";
+
+        return redirect()->back()->with('success', "'{$product->name}'{$variantInfo} berhasil ditambahkan ke keranjang.");
     }
 
     public function update(Request $request, $id)
@@ -55,7 +86,7 @@ class CartController extends Controller
             'quantity' => ['required', 'integer', 'min:1', 'max:50'],
         ]);
 
-        $cartItem = CartItem::where('user_id', Auth::id())->where('id', $id)->firstOrFail();
+        $cartItem = $this->getCartQuery()->where('id', $id)->firstOrFail();
         $cartItem->update(['quantity' => $request->input('quantity')]);
 
         return redirect()->route('cart.index')->with('success', 'Jumlah produk berhasil diperbarui.');
@@ -63,17 +94,16 @@ class CartController extends Controller
 
     public function destroy($id)
     {
-        $cartItem = CartItem::where('user_id', Auth::id())->where('id', $id)->firstOrFail();
+        $cartItem = $this->getCartQuery()->where('id', $id)->firstOrFail();
         $cartItem->delete();
 
         return redirect()->route('cart.index')->with('success', 'Produk berhasil dihapus dari keranjang.');
     }
 
-    public function whatsappCheckout()
+    public function whatsappCheckout(Request $request)
     {
-        $user = Auth::user();
-        $cartItems = CartItem::with('product')
-            ->where('user_id', $user->id)
+        $cartItems = $this->getCartQuery()
+            ->with('product')
             ->get();
 
         if ($cartItems->isEmpty()) {
@@ -86,11 +116,23 @@ class CartController extends Controller
 
         $message = "{$defaultMsg}\n\n";
         $message .= "*Detail Pesanan:*\n";
-        $message .= "Nama Pemesan: {$user->name}\n";
-        $message .= "Email: {$user->email}\n";
-        if ($user->phone) {
-            $message .= "No. HP: {$user->phone}\n";
+
+        if (Auth::check()) {
+            $user = Auth::user();
+            $message .= "Nama Pemesan: {$user->name}\n";
+            $message .= "Email: {$user->email}\n";
+            if ($user->phone) {
+                $message .= "No. HP: {$user->phone}\n";
+            }
+        } else {
+            $guestName = $request->input('guest_name') ?: 'Pengunjung Web';
+            $guestPhone = $request->input('guest_phone');
+            $message .= "Nama Pemesan: {$guestName}\n";
+            if ($guestPhone) {
+                $message .= "No. HP: {$guestPhone}\n";
+            }
         }
+
         $message .= "-----------------------------\n";
 
         $totalPrice = 0;
@@ -101,7 +143,16 @@ class CartController extends Controller
             $itemPrice = number_format($item->product->effective_price, 0, ',', '.');
             $subtotalFormatted = number_format($subtotal, 0, ',', '.');
 
-            $message .= "{$n}. *{$item->product->name}*\n";
+            $variantDetails = [];
+            if ($item->color) {
+                $variantDetails[] = "Warna: {$item->color}";
+            }
+            if ($item->size) {
+                $variantDetails[] = "Ukuran: {$item->size}";
+            }
+            $variantText = !empty($variantDetails) ? " (" . implode(', ', $variantDetails) . ")" : "";
+
+            $message .= "{$n}. *{$item->product->name}*{$variantText}\n";
             $message .= "   {$item->quantity}x @ Rp {$itemPrice} = Rp {$subtotalFormatted}\n";
         }
 
@@ -114,3 +165,4 @@ class CartController extends Controller
         return redirect()->away($whatsappUrl);
     }
 }
+
