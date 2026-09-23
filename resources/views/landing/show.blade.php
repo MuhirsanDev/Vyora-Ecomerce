@@ -72,22 +72,59 @@
       @if(count($product->colors_list) > 0)
         @php
           $colorMap = [
-            'Hitam' => '#000000',
-            'Coffee' => '#4a2c11',
-            'Cream' => '#f5f5dc',
-            'Hijau' => '#2e7d32',
-            'Merah' => '#d32f2f',
-            'Navy' => '#0d47a1',
-            'Putih' => '#ffffff',
-            'Pink' => '#e91e63',
-            'Lilac' => '#c8a2c8',
-            'Cokelat' => '#795548',
-            'Abu-abu' => '#808080',
-            'Maroon' => '#800000',
-            'Rose Gold' => '#b76e79',
-            'Sage' => '#9caf88'
+            'Hitam'     => ['bg' => '#000000', 'text' => '#ffffff', 'border' => '#000000'],
+            'Coffee'    => ['bg' => '#4a2c11', 'text' => '#ffffff', 'border' => '#4a2c11'],
+            'Cokelat'   => ['bg' => '#795548', 'text' => '#ffffff', 'border' => '#795548'],
+            'Cream'     => ['bg' => '#f5f5dc', 'text' => '#1f2937', 'border' => '#d1d5db'],
+            'Hijau'     => ['bg' => '#2e7d32', 'text' => '#ffffff', 'border' => '#2e7d32'],
+            'Merah'     => ['bg' => '#d32f2f', 'text' => '#ffffff', 'border' => '#d32f2f'],
+            'Navy'      => ['bg' => '#0d47a1', 'text' => '#ffffff', 'border' => '#0d47a1'],
+            'Putih'     => ['bg' => '#ffffff', 'text' => '#1f2937', 'border' => '#9ca3af'],
+            'Pink'      => ['bg' => '#e91e63', 'text' => '#ffffff', 'border' => '#e91e63'],
+            'Lilac'     => ['bg' => '#c8a2c8', 'text' => '#1f2937', 'border' => '#c8a2c8'],
+            'Abu-abu'   => ['bg' => '#808080', 'text' => '#ffffff', 'border' => '#808080'],
+            'Maroon'    => ['bg' => '#800000', 'text' => '#ffffff', 'border' => '#800000'],
+            'Rose Gold' => ['bg' => '#b76e79', 'text' => '#ffffff', 'border' => '#b76e79'],
+            'Sage'      => ['bg' => '#9caf88', 'text' => '#1f2937', 'border' => '#9caf88'],
+            'Mocca'     => ['bg' => '#9e7b66', 'text' => '#ffffff', 'border' => '#9e7b66'],
+            'Moka'      => ['bg' => '#9e7b66', 'text' => '#ffffff', 'border' => '#9e7b66'],
+            'Beige'     => ['bg' => '#f5f5dc', 'text' => '#1f2937', 'border' => '#d1d5db'],
+            'Biru'      => ['bg' => '#1d4ed8', 'text' => '#ffffff', 'border' => '#1d4ed8'],
+            'Kuning'    => ['bg' => '#eab308', 'text' => '#1f2937', 'border' => '#eab308'],
           ];
         @endphp
+        <style>
+          .color-swatch-btn {
+            background-color: #ffffff !important;
+            color: #374151 !important;
+            border: 1.5px solid #d1d5db !important;
+            transition: all 0.2s ease-in-out;
+          }
+          .color-swatch-btn:hover {
+            border-color: var(--swatch-border) !important;
+            transform: translateY(-1px);
+          }
+          .color-swatch-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+            border: 1px solid rgba(0,0,0,0.15);
+            transition: all 0.2s ease;
+          }
+          .color-radio:checked + .color-swatch-btn {
+            background-color: var(--swatch-bg) !important;
+            color: var(--swatch-text) !important;
+            border-color: var(--swatch-border) !important;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+          }
+          .color-radio:checked + .color-swatch-btn .color-swatch-dot {
+            background-color: var(--swatch-text) !important;
+            border-color: rgba(0,0,0,0.2) !important;
+            transform: scale(1.1);
+          }
+        </style>
         <div class="mb-3 p-3 bg-light rounded-4 border">
           <label class="fw-semibold text-dark mb-2 d-block">
             <i class="fa-solid fa-palette me-1 text-primary"></i> Pilihan Warna Tersedia:
@@ -95,11 +132,13 @@
           <div class="d-flex flex-wrap gap-2">
             @foreach($product->colors_list as $index => $colorOption)
               @php
-                $hex = $colorMap[$colorOption] ?? '#71717a';
+                $c = $colorMap[$colorOption] ?? ['bg' => '#71717a', 'text' => '#ffffff', 'border' => '#71717a'];
               @endphp
               <input type="radio" class="btn-check color-radio" name="color" id="color_{{ $index }}" value="{{ $colorOption }}" {{ $index === 0 ? 'checked' : '' }} form="addToCartForm" onchange="updateWaUrl()">
-              <label class="btn btn-outline-dark rounded-pill px-3 py-1.5 fs-7 fw-semibold color-swatch-btn d-inline-flex align-items-center" for="color_{{ $index }}">
-                <span class="color-swatch-dot" style="background-color: {{ $hex }};"></span>
+              <label class="btn rounded-pill px-3 py-1.5 fs-7 fw-semibold color-swatch-btn d-inline-flex align-items-center" 
+                     for="color_{{ $index }}"
+                     style="--swatch-bg: {{ $c['bg'] }}; --swatch-text: {{ $c['text'] }}; --swatch-border: {{ $c['border'] }};">
+                <span class="color-swatch-dot" style="background-color: {{ $c['bg'] }};"></span>
                 <span>{{ $colorOption }}</span>
               </label>
             @endforeach
@@ -174,11 +213,10 @@
     <!-- Full Dimension Photo Showcase (Resolusi & Dimensi Asli Tanpa Terpotong) -->
     @if(count($allImages) > 0)
       <div class="border-top pt-4 mt-5">
-        <div class="d-flex align-items-center justify-content-between mb-4">
+        <div class="mb-4">
           <h5 class="fw-bold text-dark mb-0">
             <i class="fa-solid fa-images me-2 text-primary"></i> Detail & Foto Lengkap Produk
           </h5>
-          <span class="badge bg-light text-secondary border">Ukuran Asli / High Quality</span>
         </div>
         <div class="d-flex flex-column gap-4">
           @foreach($allImages as $idx => $img)
