@@ -160,7 +160,7 @@
   <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-5 bg-white">
     <div class="border-bottom pb-3 mb-4">
       <h4 class="font-secondary fw-bold text-dark mb-0">
-        <i class="fa-solid fa-align-left me-2 text-indigo-600"></i> Deskripsi Produk
+        <i class="fa-solid fa-align-left me-2 text-primary"></i> Deskripsi Produk
       </h4>
     </div>
     <div class="text-secondary fs-6 lh-lg">
@@ -170,6 +170,25 @@
         <p class="text-muted italic mb-0">Belum ada rincian deskripsi tambahan untuk produk ini.</p>
       @endif
     </div>
+
+    <!-- Full Dimension Photo Showcase (Resolusi & Dimensi Asli Tanpa Terpotong) -->
+    @if(count($allImages) > 0)
+      <div class="border-top pt-4 mt-5">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+          <h5 class="fw-bold text-dark mb-0">
+            <i class="fa-solid fa-images me-2 text-primary"></i> Detail & Foto Lengkap Produk
+          </h5>
+          <span class="badge bg-light text-secondary border">Ukuran Asli / High Quality</span>
+        </div>
+        <div class="d-flex flex-column gap-4">
+          @foreach($allImages as $idx => $img)
+            <div class="w-100 text-center rounded-4 overflow-hidden bg-light p-2 border">
+              <img src="{{ $img }}" alt="{{ $product->name }} Detail {{ $idx + 1 }}" class="img-fluid rounded-3" style="max-width: 100%; height: auto; object-fit: contain;">
+            </div>
+          @endforeach
+        </div>
+      </div>
+    @endif
   </div>
 
   <!-- Related Products Section -->
