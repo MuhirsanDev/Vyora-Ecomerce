@@ -17,11 +17,25 @@
   </nav>
 
   <div class="row g-5 align-items-center mb-5">
-    <!-- Image -->
+    <!-- Image & Photo Gallery -->
     <div class="col-md-6 text-center">
-      <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-        <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="img-fluid" style="max-height: 500px; object-fit: cover; width: 100%;">
+      <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-3">
+        <img id="mainProductImage" src="{{ $product->image_url }}" alt="{{ $product->name }}" class="img-fluid" style="max-height: 500px; object-fit: cover; width: 100%; transition: opacity 0.2s ease;">
       </div>
+
+      @php
+        $allImages = array_merge([$product->image_url], $product->additional_images_urls);
+      @endphp
+
+      @if(count($allImages) > 1)
+        <div class="d-flex justify-content-center gap-2 overflow-auto py-1">
+          @foreach($allImages as $idx => $imgUrl)
+            <button type="button" class="btn p-0 border rounded-3 overflow-hidden thumbnail-btn {{ $idx === 0 ? 'border-dark border-2' : 'opacity-75' }}" onclick="changeMainImage('{{ $imgUrl }}', this)">
+              <img src="{{ $imgUrl }}" style="width: 70px; height: 70px; object-fit: cover;">
+            </button>
+          @endforeach
+        </div>
+      @endif
     </div>
 
     <!-- Details -->
@@ -55,30 +69,88 @@
         @endif
       </div>
 
+      @if(count($product->colors_list) > 0)
+        @php
+          $colorMap = [
+            'Hitam' => '#000000',
+            'Coffee' => '#4a2c11',
+            'Cream' => '#f5f5dc',
+            'Hijau' => '#2e7d32',
+            'Merah' => '#d32f2f',
+            'Navy' => '#0d47a1',
+            'Putih' => '#ffffff',
+            'Pink' => '#e91e63',
+            'Lilac' => '#c8a2c8',
+            'Cokelat' => '#795548',
+            'Abu-abu' => '#808080',
+            'Maroon' => '#800000',
+            'Rose Gold' => '#b76e79',
+            'Sage' => '#9caf88'
+          ];
+        @endphp
+        <div class="mb-3 p-3 bg-light rounded-4 border">
+          <label class="fw-semibold text-dark mb-2 d-block">
+            <i class="fa-solid fa-palette me-1 text-primary"></i> Pilihan Warna Tersedia:
+          </label>
+          <div class="d-flex flex-wrap gap-2">
+            @foreach($product->colors_list as $index => $colorOption)
+              @php
+                $hex = $colorMap[$colorOption] ?? '#71717a';
+              @endphp
+              <input type="radio" class="btn-check color-radio" name="color" id="color_{{ $index }}" value="{{ $colorOption }}" {{ $index === 0 ? 'checked' : '' }} form="addToCartForm" onchange="updateWaUrl()">
+              <label class="btn btn-outline-dark rounded-pill px-3 py-1.5 fs-7 fw-semibold color-swatch-btn d-inline-flex align-items-center" for="color_{{ $index }}">
+                <span class="color-swatch-dot" style="background-color: {{ $hex }};"></span>
+                <span>{{ $colorOption }}</span>
+              </label>
+            @endforeach
+          </div>
+        </div>
+      @endif
+
+      @if(count($product->sizes_list) > 0)
+        <div class="mb-4 p-3 bg-light rounded-4 border">
+          <label class="fw-semibold text-dark mb-2 d-block">
+            <i class="fa-solid fa-ruler-horizontal me-1 text-primary"></i> Pilihan Ukuran (Size) Tersedia:
+          </label>
+          <div class="d-flex flex-wrap gap-2">
+            @foreach($product->sizes_list as $index => $sizeOption)
+              <input type="radio" class="btn-check size-radio" name="size" id="size_{{ $index }}" value="{{ $sizeOption }}" {{ $index === 0 ? 'checked' : '' }} form="addToCartForm" onchange="updateWaUrl()">
+              <label class="btn btn-outline-dark rounded-pill px-3 py-1.5 fs-7 fw-semibold" for="size_{{ $index }}">
+                {{ $sizeOption }}
+              </label>
+            @endforeach
+          </div>
+        </div>
+      @endif
+
       <!-- Add to Cart Form / Direct WA -->
       <div class="d-flex flex-column gap-3">
-        <a href="{{ $directWaUrl }}" target="_blank" class="btn btn-success btn-lg rounded-pill px-4 text-white fw-bold d-flex align-items-center justify-content-center gap-2">
+        <a id="directWaBtn" href="{{ $directWaUrl }}" target="_blank" class="btn btn-success btn-lg rounded-pill px-4 text-white fw-bold d-flex align-items-center justify-content-center gap-2">
           <i class="fa-brands fa-whatsapp fs-4"></i>
-          <span>Chat / Order Langsung via WhatsApp</span>
+          <span>Tanya Stok Varian / Order via WA</span>
         </a>
 
-        @auth
-          <form action="{{ route('cart.add') }}" method="POST" class="d-flex gap-3 align-items-center">
-            @csrf
-            <input type="hidden" name="product_id" value="{{ $product->id }}">
-            <div style="width: 100px;">
-              <input type="number" name="quantity" class="form-control form-control-lg text-center rounded-pill" value="1" min="1" max="{{ $product->stock }}">
-            </div>
-            <button type="submit" class="btn btn-dark btn-lg rounded-pill px-4 flex-grow-1" {{ $product->stock <= 0 ? 'disabled' : '' }}>
-              <i class="fa-solid fa-cart-plus me-2"></i> Tambah ke Keranjang
-            </button>
-          </form>
-        @else
-          <a href="{{ route('login') }}" class="btn btn-outline-dark rounded-pill px-3 py-2 text-decoration-none fw-semibold d-flex align-items-center justify-content-center gap-2 fs-7">
-            <i class="fa-solid fa-right-to-bracket"></i>
-            <span>Masuk Akun untuk menambahkan koleksi ke keranjang</span>
+        <form action="{{ route('cart.add') }}" method="POST" id="addToCartForm" class="d-flex gap-3 align-items-center">
+          @csrf
+          <input type="hidden" name="product_id" value="{{ $product->id }}">
+          <div style="width: 100px;">
+            <input type="number" name="quantity" class="form-control form-control-lg text-center rounded-pill" value="1" min="1" max="{{ $product->stock }}">
+          </div>
+          <button type="submit" class="btn btn-dark btn-lg rounded-pill px-4 flex-grow-1" {{ $product->stock <= 0 ? 'disabled' : '' }}>
+            <i class="fa-solid fa-cart-plus me-2"></i> Tambah ke Keranjang
+          </button>
+        </form>
+
+        <!-- Share Section -->
+        <div class="pt-3 border-top mt-2 d-flex align-items-center gap-3">
+          <span class="fs-7 fw-semibold text-muted"><i class="fa-solid fa-share-nodes me-1"></i> Bagikan:</span>
+          <a href="https://wa.me/?text={{ urlencode('Lihat produk ' . $product->name . ' di Vyora Store: ' . route('products.show', $product->slug)) }}" target="_blank" class="btn btn-sm btn-outline-success rounded-pill px-3 fs-7">
+            <i class="fa-brands fa-whatsapp me-1"></i> WhatsApp
           </a>
-        @endauth
+          <button type="button" onclick="copyProductLink()" class="btn btn-sm btn-outline-secondary rounded-pill px-3 fs-7">
+            <i class="fa-solid fa-link me-1"></i> Salin Link
+          </button>
+        </div>
       </div>
 
     </div>
@@ -124,6 +196,85 @@
     </div>
   @endif
 
+  <!-- Sticky Mobile Bottom Bar -->
+  <div class="sticky-mobile-bar d-flex align-items-center justify-content-between gap-2 p-3">
+    <div>
+      <span class="text-muted fs-8 d-block lh-1 mb-1">Harga:</span>
+      <span class="fw-bold text-dark fs-6">{{ $product->formatted_price }}</span>
+    </div>
+    <div class="d-flex gap-2">
+      <button type="button" onclick="document.getElementById('addToCartForm').submit()" class="btn btn-dark btn-sm rounded-pill px-3 py-2 fw-bold d-flex align-items-center gap-1" {{ $product->stock <= 0 ? 'disabled' : '' }}>
+        <i class="fa-solid fa-cart-plus"></i>
+        <span>+Keranjang</span>
+      </button>
+      <a id="mobileWaBtn" href="{{ $directWaUrl }}" target="_blank" class="btn btn-success btn-sm rounded-pill px-3 py-2 fw-bold d-flex align-items-center gap-1">
+        <i class="fa-brands fa-whatsapp fs-5"></i>
+        <span>WA</span>
+      </a>
+    </div>
+  </div>
+
 </div>
+
+@push('scripts')
+<script>
+  function changeMainImage(url, btn) {
+    const mainImg = document.getElementById('mainProductImage');
+    if (mainImg) {
+      mainImg.style.opacity = 0;
+      setTimeout(() => {
+        mainImg.src = url;
+        mainImg.style.opacity = 1;
+      }, 150);
+    }
+    document.querySelectorAll('.thumbnail-btn').forEach(b => {
+      b.classList.remove('border-dark', 'border-2');
+      b.classList.add('opacity-75');
+    });
+    btn.classList.add('border-dark', 'border-2');
+    btn.classList.remove('opacity-75');
+  }
+
+  function updateWaUrl() {
+    const waBtn = document.getElementById('directWaBtn');
+    if (!waBtn) return;
+
+    const baseWaNum = "{{ \App\Models\Setting::get('whatsapp_number', '6281234567890') }}";
+    const storeName = "{{ \App\Models\Setting::get('store_name', 'VYORA') }}";
+    const productName = "{{ $product->name }}";
+    const productPrice = "{{ $product->formatted_price }}";
+    const productUrl = "{{ route('products.show', $product->slug) }}";
+
+    let colorVal = '';
+    const selectedColor = document.querySelector('.color-radio:checked');
+    if (selectedColor) colorVal = selectedColor.value;
+
+    let sizeVal = '';
+    const selectedSize = document.querySelector('.size-radio:checked');
+    if (selectedSize) sizeVal = selectedSize.value;
+
+    let msg = `Halo ${storeName}, saya mau tanya / pesan produk ini:\n\n*${productName}*\n`;
+    if (colorVal) msg += `Warna: ${colorVal}\n`;
+    if (sizeVal) msg += `Ukuran: ${sizeVal}\n`;
+    msg += `Harga: ${productPrice}\nLink: ${productUrl}`;
+
+    const finalUrl = `https://wa.me/${baseWaNum}?text=${encodeURIComponent(msg)}`;
+    waBtn.href = finalUrl;
+
+    const mobileWaBtn = document.getElementById('mobileWaBtn');
+    if (mobileWaBtn) {
+      mobileWaBtn.href = finalUrl;
+    }
+  }
+
+  function copyProductLink() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      alert('Tautan produk berhasil disalin ke clipboard!');
+    }).catch(err => {
+      console.error('Gagal menyalin link: ', err);
+    });
+  }
+</script>
+@endpush
 
 @endsection
