@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CartItem;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -53,6 +54,12 @@ class AuthController extends Controller
                     'email' => 'Akun Anda telah diblokir oleh Admin. Silakan hubungi pengelola toko.',
                 ])->onlyInput('email');
             }
+
+            $sessionId = session()->getId();
+            CartItem::where('session_id', $sessionId)->update([
+                'user_id' => $user->id,
+                'session_id' => null,
+            ]);
 
             $request->session()->regenerate();
 
