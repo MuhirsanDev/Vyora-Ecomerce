@@ -19,6 +19,9 @@ class Product extends Model
         'discount_price',
         'promo_ends_at',
         'image',
+        'additional_images',
+        'colors',
+        'sizes',
         'stock',
         'is_active',
     ];
@@ -27,8 +30,67 @@ class Product extends Model
         'price' => 'decimal:2',
         'discount_price' => 'decimal:2',
         'promo_ends_at' => 'datetime',
+        'colors' => 'array',
+        'sizes' => 'array',
+        'additional_images' => 'array',
         'is_active' => 'boolean',
     ];
+
+    public function getColorsListAttribute(): array
+    {
+        if (is_array($this->colors)) {
+            return array_values(array_filter(array_map('trim', $this->colors)));
+        }
+        if (is_string($this->colors) && !empty($this->colors)) {
+            $decoded = json_decode($this->colors, true);
+            if (is_array($decoded)) {
+                return array_values(array_filter(array_map('trim', $decoded)));
+            }
+            return array_values(array_filter(array_map('trim', explode(',', $this->colors))));
+        }
+        return [];
+    }
+
+    public function getSizesListAttribute(): array
+    {
+        if (is_array($this->sizes)) {
+            return array_values(array_filter(array_map('trim', $this->sizes)));
+        }
+        if (is_string($this->sizes) && !empty($this->sizes)) {
+            $decoded = json_decode($this->sizes, true);
+            if (is_array($decoded)) {
+                return array_values(array_filter(array_map('trim', $decoded)));
+            }
+            return array_values(array_filter(array_map('trim', explode(',', $this->sizes))));
+        }
+        return [];
+    }
+
+    public function getAdditionalImagesUrlsAttribute(): array
+    {
+        $urls = [];
+        $imgs = $this->additional_images;
+
+        if (is_string($imgs)) {
+            $imgs = json_decode($imgs, true) ?: [];
+        }
+
+        if (is_array($imgs)) {
+            foreach ($imgs as $img) {
+                if (!$img) continue;
+                if (str_starts_with($img, 'http://') || str_starts_with($img, 'https://')) {
+                    $urls[] = $img;
+                } elseif (str_starts_with($img, 'storage/')) {
+                    $urls[] = asset($img);
+                } elseif (file_exists(public_path('storage/' . $img))) {
+                    $urls[] = asset('storage/' . $img);
+                } else {
+                    $urls[] = asset($img);
+                }
+            }
+        }
+        return $urls;
+    }
 
     public function category(): BelongsTo
     {
