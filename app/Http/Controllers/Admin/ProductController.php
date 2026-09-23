@@ -34,8 +34,46 @@ class ProductController extends Controller
             'promo_ends_at' => ['nullable', 'date'],
             'stock' => ['required', 'integer', 'min:0'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+            'additional_images' => ['nullable', 'array'],
+            'additional_images.*' => ['image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+            'colors' => ['nullable', 'array'],
+            'colors.*' => ['string', 'max:50'],
+            'custom_colors' => ['nullable', 'string'],
+            'sizes' => ['nullable', 'array'],
+            'sizes.*' => ['string', 'max:50'],
+            'custom_sizes' => ['nullable', 'string'],
             'is_active' => ['boolean'],
         ]);
+
+        $colors = $request->input('colors', []);
+        if (!is_array($colors)) {
+            $colors = [];
+        }
+        if ($request->filled('custom_colors')) {
+            $custom = explode(',', $request->input('custom_colors'));
+            foreach ($custom as $c) {
+                $trimmed = trim($c);
+                if ($trimmed !== '' && !in_array($trimmed, $colors)) {
+                    $colors[] = $trimmed;
+                }
+            }
+        }
+        $validated['colors'] = array_values(array_unique(array_filter($colors)));
+
+        $sizes = $request->input('sizes', []);
+        if (!is_array($sizes)) {
+            $sizes = [];
+        }
+        if ($request->filled('custom_sizes')) {
+            $customSizes = explode(',', $request->input('custom_sizes'));
+            foreach ($customSizes as $s) {
+                $trimmed = trim($s);
+                if ($trimmed !== '' && !in_array($trimmed, $sizes)) {
+                    $sizes[] = $trimmed;
+                }
+            }
+        }
+        $validated['sizes'] = array_values(array_unique(array_filter($sizes)));
 
         // Auto-generate slug from name in background
         $slug = Str::slug($validated['name']);
@@ -49,6 +87,14 @@ class ProductController extends Controller
             $path = $request->file('image')->store('products', 'public');
             $validated['image'] = $path;
         }
+
+        $additionalPaths = [];
+        if ($request->hasFile('additional_images')) {
+            foreach ($request->file('additional_images') as $file) {
+                $additionalPaths[] = $file->store('products', 'public');
+            }
+        }
+        $validated['additional_images'] = $additionalPaths;
 
         Product::create($validated);
 
@@ -72,8 +118,47 @@ class ProductController extends Controller
             'promo_ends_at' => ['nullable', 'date'],
             'stock' => ['required', 'integer', 'min:0'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+            'additional_images' => ['nullable', 'array'],
+            'additional_images.*' => ['image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+            'remove_additional_images' => ['nullable', 'array'],
+            'colors' => ['nullable', 'array'],
+            'colors.*' => ['string', 'max:50'],
+            'custom_colors' => ['nullable', 'string'],
+            'sizes' => ['nullable', 'array'],
+            'sizes.*' => ['string', 'max:50'],
+            'custom_sizes' => ['nullable', 'string'],
             'is_active' => ['boolean'],
         ]);
+
+        $colors = $request->input('colors', []);
+        if (!is_array($colors)) {
+            $colors = [];
+        }
+        if ($request->filled('custom_colors')) {
+            $custom = explode(',', $request->input('custom_colors'));
+            foreach ($custom as $c) {
+                $trimmed = trim($c);
+                if ($trimmed !== '' && !in_array($trimmed, $colors)) {
+                    $colors[] = $trimmed;
+                }
+            }
+        }
+        $validated['colors'] = array_values(array_unique(array_filter($colors)));
+
+        $sizes = $request->input('sizes', []);
+        if (!is_array($sizes)) {
+            $sizes = [];
+        }
+        if ($request->filled('custom_sizes')) {
+            $customSizes = explode(',', $request->input('custom_sizes'));
+            foreach ($customSizes as $s) {
+                $trimmed = trim($s);
+                if ($trimmed !== '' && !in_array($trimmed, $sizes)) {
+                    $sizes[] = $trimmed;
+                }
+            }
+        }
+        $validated['sizes'] = array_values(array_unique(array_filter($sizes)));
 
         if ($validated['name'] !== $product->name) {
             $slug = Str::slug($validated['name']);
@@ -93,6 +178,32 @@ class ProductController extends Controller
             $validated['image'] = $path;
         }
 
+        $existingImages = $product->additional_images ?: [];
+        if (!is_array($existingImages)) {
+            $existingImages = [];
+        }
+
+        if ($request->has('remove_additional_images')) {
+            $toRemove = $request->input('remove_additional_images');
+            $existingImages = array_filter($existingImages, function($img) use ($toRemove) {
+                if (in_array($img, $toRemove)) {
+                    if (Storage::disk('public')->exists($img)) {
+                        Storage::disk('public')->delete($img);
+                    }
+                    return false;
+                }
+                return true;
+            });
+            $existingImages = array_values($existingImages);
+        }
+
+        if ($request->hasFile('additional_images')) {
+            foreach ($request->file('additional_images') as $file) {
+                $existingImages[] = $file->store('products', 'public');
+            }
+        }
+        $validated['additional_images'] = array_values($existingImages);
+
         $product->update($validated);
 
         return redirect()->route('admin.products.index')->with('success', 'Produk berhasil diperbarui!');
@@ -102,6 +213,14 @@ class ProductController extends Controller
     {
         if ($product->image && Storage::disk('public')->exists($product->image)) {
             Storage::disk('public')->delete($product->image);
+        }
+
+        if (is_array($product->additional_images)) {
+            foreach ($product->additional_images as $img) {
+                if ($img && Storage::disk('public')->exists($img)) {
+                    Storage::disk('public')->delete($img);
+                }
+            }
         }
 
         $product->delete();
