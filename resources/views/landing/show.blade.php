@@ -132,7 +132,17 @@
           <div class="d-flex flex-wrap gap-2">
             @foreach($product->colors_list as $index => $colorOption)
               @php
-                $c = $colorMap[$colorOption] ?? ['bg' => '#71717a', 'text' => '#ffffff', 'border' => '#71717a'];
+                $c = null;
+                $normalizedKey = strtolower(trim($colorOption));
+                foreach ($colorMap as $k => $v) {
+                  if (strtolower($k) === $normalizedKey) {
+                    $c = $v;
+                    break;
+                  }
+                }
+                if (!$c) {
+                  $c = ['bg' => '#71717a', 'text' => '#ffffff', 'border' => '#71717a'];
+                }
               @endphp
               <input type="radio" class="btn-check color-radio" name="color" id="color_{{ $index }}" value="{{ $colorOption }}" {{ $index === 0 ? 'checked' : '' }} form="addToCartForm" onchange="updateWaUrl()">
               <label class="btn rounded-pill px-3 py-1.5 fs-7 fw-semibold color-swatch-btn d-inline-flex align-items-center" 
