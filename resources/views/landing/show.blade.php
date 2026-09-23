@@ -72,57 +72,60 @@
       @if(count($product->colors_list) > 0)
         @php
           $colorMap = [
-            'Hitam'     => ['bg' => '#000000', 'text' => '#ffffff', 'border' => '#000000'],
-            'Coffee'    => ['bg' => '#4a2c11', 'text' => '#ffffff', 'border' => '#4a2c11'],
-            'Cokelat'   => ['bg' => '#795548', 'text' => '#ffffff', 'border' => '#795548'],
-            'Cream'     => ['bg' => '#f5f5dc', 'text' => '#1f2937', 'border' => '#d1d5db'],
-            'Hijau'     => ['bg' => '#2e7d32', 'text' => '#ffffff', 'border' => '#2e7d32'],
-            'Merah'     => ['bg' => '#d32f2f', 'text' => '#ffffff', 'border' => '#d32f2f'],
-            'Navy'      => ['bg' => '#0d47a1', 'text' => '#ffffff', 'border' => '#0d47a1'],
-            'Putih'     => ['bg' => '#ffffff', 'text' => '#1f2937', 'border' => '#9ca3af'],
-            'Pink'      => ['bg' => '#e91e63', 'text' => '#ffffff', 'border' => '#e91e63'],
-            'Lilac'     => ['bg' => '#c8a2c8', 'text' => '#1f2937', 'border' => '#c8a2c8'],
-            'Abu-abu'   => ['bg' => '#808080', 'text' => '#ffffff', 'border' => '#808080'],
-            'Maroon'    => ['bg' => '#800000', 'text' => '#ffffff', 'border' => '#800000'],
-            'Rose Gold' => ['bg' => '#b76e79', 'text' => '#ffffff', 'border' => '#b76e79'],
-            'Sage'      => ['bg' => '#9caf88', 'text' => '#1f2937', 'border' => '#9caf88'],
-            'Mocca'     => ['bg' => '#9e7b66', 'text' => '#ffffff', 'border' => '#9e7b66'],
-            'Moka'      => ['bg' => '#9e7b66', 'text' => '#ffffff', 'border' => '#9e7b66'],
-            'Beige'     => ['bg' => '#f5f5dc', 'text' => '#1f2937', 'border' => '#d1d5db'],
-            'Biru'      => ['bg' => '#1d4ed8', 'text' => '#ffffff', 'border' => '#1d4ed8'],
-            'Kuning'    => ['bg' => '#eab308', 'text' => '#1f2937', 'border' => '#eab308'],
+            'Hitam'     => ['color' => '#000000', 'ring' => 'rgba(0, 0, 0, 0.25)'],
+            'Coffee'    => ['color' => '#4a2c11', 'ring' => 'rgba(74, 44, 17, 0.25)'],
+            'Cokelat'   => ['color' => '#795548', 'ring' => 'rgba(121, 85, 72, 0.25)'],
+            'Cream'     => ['color' => '#e6d7b8', 'ring' => 'rgba(230, 215, 184, 0.4)'],
+            'Hijau'     => ['color' => '#2e7d32', 'ring' => 'rgba(46, 125, 50, 0.25)'],
+            'Merah'     => ['color' => '#d32f2f', 'ring' => 'rgba(211, 47, 47, 0.25)'],
+            'Navy'      => ['color' => '#0d47a1', 'ring' => 'rgba(13, 71, 161, 0.25)'],
+            'Putih'     => ['color' => '#ffffff', 'ring' => 'rgba(156, 163, 175, 0.4)'],
+            'Pink'      => ['color' => '#e91e63', 'ring' => 'rgba(233, 30, 99, 0.25)'],
+            'Lilac'     => ['color' => '#c8a2c8', 'ring' => 'rgba(200, 162, 200, 0.4)'],
+            'Abu-abu'   => ['color' => '#808080', 'ring' => 'rgba(128, 128, 128, 0.25)'],
+            'Maroon'    => ['color' => '#800000', 'ring' => 'rgba(128, 0, 0, 0.25)'],
+            'Rose Gold' => ['color' => '#b76e79', 'ring' => 'rgba(183, 110, 121, 0.25)'],
+            'Sage'      => ['color' => '#9caf88', 'ring' => 'rgba(156, 175, 136, 0.4)'],
+            'Mocca'     => ['color' => '#9e7b66', 'ring' => 'rgba(158, 123, 102, 0.25)'],
+            'Moka'      => ['color' => '#9e7b66', 'ring' => 'rgba(158, 123, 102, 0.25)'],
+            'Beige'     => ['color' => '#e6d7b8', 'ring' => 'rgba(230, 215, 184, 0.4)'],
+            'Biru'      => ['color' => '#1d4ed8', 'ring' => 'rgba(29, 78, 216, 0.25)'],
+            'Kuning'    => ['color' => '#eab308', 'ring' => 'rgba(234, 179, 8, 0.3)'],
           ];
         @endphp
         <style>
-          .color-swatch-btn {
+          .color-swatch-pill {
             background-color: #ffffff !important;
             color: #374151 !important;
             border: 1.5px solid #d1d5db !important;
             transition: all 0.2s ease-in-out;
+            cursor: pointer;
           }
-          .color-swatch-btn:hover {
-            border-color: var(--swatch-border) !important;
+          .color-swatch-pill:hover {
+            border-color: var(--swatch-color, #4b5563) !important;
             transform: translateY(-1px);
           }
           .color-swatch-dot {
-            width: 14px;
-            height: 14px;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
             display: inline-block;
-            margin-right: 6px;
-            border: 1px solid rgba(0,0,0,0.15);
-            transition: all 0.2s ease;
+            margin-right: 8px;
+            background-color: var(--swatch-color, #71717a);
+            border: 1.5px solid rgba(0,0,0,0.15);
+            box-shadow: inset 0 1px 2px rgba(255,255,255,0.3);
+            transition: transform 0.2s ease;
           }
-          .color-radio:checked + .color-swatch-btn {
-            background-color: var(--swatch-bg) !important;
-            color: var(--swatch-text) !important;
-            border-color: var(--swatch-border) !important;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15) !important;
+          .color-radio:checked + .color-swatch-pill {
+            background-color: #ffffff !important;
+            color: #111827 !important;
+            border: 2.5px solid var(--swatch-color, #111827) !important;
+            box-shadow: 0 0 0 3px var(--swatch-ring, rgba(0,0,0,0.1)), 0 2px 6px rgba(0,0,0,0.08) !important;
+            font-weight: 700 !important;
           }
-          .color-radio:checked + .color-swatch-btn .color-swatch-dot {
-            background-color: var(--swatch-text) !important;
-            border-color: rgba(0,0,0,0.2) !important;
-            transform: scale(1.1);
+          .color-radio:checked + .color-swatch-pill .color-swatch-dot {
+            transform: scale(1.2);
+            border-color: rgba(0,0,0,0.3) !important;
           }
         </style>
         <div class="mb-3 p-3 bg-light rounded-4 border">
@@ -141,14 +144,14 @@
                   }
                 }
                 if (!$c) {
-                  $c = ['bg' => '#71717a', 'text' => '#ffffff', 'border' => '#71717a'];
+                  $c = ['color' => '#71717a', 'ring' => 'rgba(113, 113, 122, 0.25)'];
                 }
               @endphp
               <input type="radio" class="btn-check color-radio" name="color" id="color_{{ $index }}" value="{{ $colorOption }}" {{ $index === 0 ? 'checked' : '' }} form="addToCartForm" onchange="updateWaUrl()">
-              <label class="btn rounded-pill px-3 py-1.5 fs-7 fw-semibold color-swatch-btn d-inline-flex align-items-center" 
+              <label class="btn rounded-pill px-3 py-1.5 fs-7 fw-semibold color-swatch-pill d-inline-flex align-items-center" 
                      for="color_{{ $index }}"
-                     style="--swatch-bg: {{ $c['bg'] }}; --swatch-text: {{ $c['text'] }}; --swatch-border: {{ $c['border'] }};">
-                <span class="color-swatch-dot" style="background-color: {{ $c['bg'] }};"></span>
+                     style="--swatch-color: {{ $c['color'] }}; --swatch-ring: {{ $c['ring'] }};">
+                <span class="color-swatch-dot"></span>
                 <span>{{ $colorOption }}</span>
               </label>
             @endforeach
