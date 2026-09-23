@@ -35,6 +35,18 @@ class LandingController extends Controller
             }
         }
 
+        // Color filter
+        if ($request->filled('color')) {
+            $color = $request->input('color');
+            $query->where('colors', 'like', "%\"{$color}\"%");
+        }
+
+        // Size filter
+        if ($request->filled('size')) {
+            $size = $request->input('size');
+            $query->where('sizes', 'like', "%\"{$size}\"%");
+        }
+
         $products = $query->latest()->paginate(50)->withQueryString();
         $categories = Category::withCount(['products' => function ($q) {
             $q->where('is_active', true);
