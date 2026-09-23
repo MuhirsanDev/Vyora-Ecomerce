@@ -211,6 +211,13 @@
       if (openBtn) openBtn.addEventListener('click', openSidebar);
       if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
       if (backdrop) backdrop.addEventListener('click', closeSidebar);
+
+      // Prevent mouse wheel from accidentally changing number input values while scrolling
+      document.addEventListener('wheel', function(e) {
+        if (document.activeElement && document.activeElement.type === 'number') {
+          document.activeElement.blur();
+        }
+      }, { passive: true });
     });
   </script>
 
