@@ -378,6 +378,15 @@
   <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
   <script src="{{ asset('js/plugins.js') }}"></script>
   <script src="{{ asset('js/script.min.js') }}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener('wheel', function(e) {
+        if (document.activeElement && document.activeElement.type === 'number') {
+          document.activeElement.blur();
+        }
+      }, { passive: true });
+    });
+  </script>
   @stack('scripts')
 </body>
 
